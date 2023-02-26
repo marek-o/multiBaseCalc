@@ -48,18 +48,48 @@ namespace TestProject
         [TestCase("0.0000000000000001", 1e-16)]
         [TestCase("-0.0000000000000000000000000000001", -1e-31)]
         [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
-        public void TestBase10(string s, double expected)
+        public void TestStringToDoubleBase10(string input, double expected)
         {
-            //Assert.AreEqual(expected, form.StringToDouble(s, 10));
-            Assert.AreEqual(s, form.DoubleToString(expected, 10));
+            Assert.AreEqual(expected, form.StringToDouble(input, 10));
+        }
 
-            //FIXME same cases in the other direction?
-            //double actualDouble = form.StringToDouble(s, 10);
-            //string actualString = form.DoubleToString(expected, 10);
+        [TestCase("", 0.0)]
+        [TestCase("0", 0.0)]
+        [TestCase("0.00", 0.0)]
+        [TestCase("0,00", 0.0)]
+        [TestCase("-0", 0.0)]
+        [TestCase("-0.0", 0.0)]
+        [TestCase("-0,0", 0.0)]
 
-            //Assert.IsTrue(actualDouble == expected && actualString == s,
-            //    string.Format("{0} => {1}, {2} => {3}",
-            //    s, actualDouble, expected, actualString));
+        [TestCase("1", 1.0)]
+        [TestCase("-1", -1.0)]
+        [TestCase("100.0", 100.0)]
+        [TestCase("1234,0", 1234.0)]
+        [TestCase("-444.00", -444.0)]
+        [TestCase("999999", 999999.0)]
+        [TestCase("-999999", -999999.0)]
+        [TestCase("123456789012345", 123456789012345.0)]
+        [TestCase("-123456789012345", -123456789012345.0)]
+
+        [TestCase("1234.5678", 1234.5678)]
+        [TestCase("-1234.5678", -1234.5678)]
+        [TestCase("-1234,5678", -1234.5678)]
+        [TestCase("0.999999", 0.999999)]
+        [TestCase("-0.999999", -0.999999)]
+        [TestCase(".999999", 0.999999)]
+        [TestCase("-.999999", -0.999999)]
+
+        [TestCase("3.1415926535897", 3.1415926535897)]
+        [TestCase("1000000000000000", 1e15)]
+        [TestCase("-5000000000000000", -5e15)]
+        [TestCase("1000000000000000000000000000000", 1e30)]
+        [TestCase("0.001", 1e-3)]
+        [TestCase("0.0000000000000001", 1e-16)]
+        [TestCase("-0.0000000000000000000000000000001", -1e-31)]
+        [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
+        public void TestDoubleToStringBase10(string expected, double input)
+        {
+            Assert.AreEqual(expected, form.DoubleToString(input, 10));
         }
 
         [TestCase("", 0.0)]
