@@ -30,6 +30,7 @@ namespace multiBaseCalc
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
+            this.labelBase = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -42,23 +43,36 @@ namespace multiBaseCalc
             this.label1.Text = "1234567890abcdef";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // labelBase
+            // 
+            this.labelBase.AutoSize = true;
+            this.labelBase.Location = new System.Drawing.Point(480, 90);
+            this.labelBase.Name = "labelBase";
+            this.labelBase.Size = new System.Drawing.Size(38, 15);
+            this.labelBase.TabIndex = 0;
+            this.labelBase.Text = "label2";
+            this.labelBase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(530, 152);
+            this.Controls.Add(this.labelBase);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelBase;
     }
 }
 

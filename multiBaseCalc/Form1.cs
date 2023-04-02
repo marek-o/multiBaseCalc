@@ -18,6 +18,7 @@ namespace multiBaseCalc
         {
             InitializeComponent();
             label1.Text = "0";
+            UpdateBaseLabel();
 
             model = new Model();
         }
@@ -44,6 +45,11 @@ namespace multiBaseCalc
             {
                 label1.Text = editedNumber.ToString();
             }
+        }
+
+        private void UpdateBaseLabel()
+        {
+            labelBase.Text = string.Format("base {0}", @base);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
