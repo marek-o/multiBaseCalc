@@ -35,21 +35,33 @@ namespace multiBaseCalc
         private char operation = '\0';
         private double firstNumber = 0.0;
 
+        public void SetNumber(string s)
+        {
+            label1.Text = s;
+        }
+
+        public void SetBaseLabel(string s)
+        {
+            labelBase.Text = s;
+        }
+
+        public event Action<char> KeyPressed = delegate { };
+
         private void UpdateEditedNumber()
         {
             if (editedNumber.Length == 0)
             {
-                label1.Text = "0";
+                SetNumber("0");
             }
             else
             {
-                label1.Text = editedNumber.ToString();
+                SetNumber(editedNumber.ToString());
             }
         }
 
         private void UpdateBaseLabel()
         {
-            labelBase.Text = string.Format("base {0}", @base);
+            SetBaseLabel(string.Format("base {0}", @base));
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -59,6 +71,7 @@ namespace multiBaseCalc
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             char k = e.KeyChar;
+            KeyPressed(k);
 
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
             {
@@ -108,7 +121,7 @@ namespace multiBaseCalc
                 editedNumber.Clear();
 
                 //DEBUG
-                Text = string.Format("{0} {1}", firstNumber, operation.ToString());
+                //Text = string.Format("{0} {1}", firstNumber, operation.ToString());
             }
 
             if (k == '=' || k == (int)Keys.Enter)
@@ -142,11 +155,10 @@ namespace multiBaseCalc
                         result = firstNumber / secondNumber;
                     }
 
-
-                    label1.Text = result.ToString();//
+                    SetNumber(result.ToString());//
                     //FIXME make floating point
                     //label1.Text = IntToString((int)result, @base);
-                    label1.Text = BaseConverter.DoubleToString(result, @base);
+                    SetNumber(BaseConverter.DoubleToString(result, @base));
 
                     operation = '\0';
                 }
