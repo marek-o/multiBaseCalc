@@ -1,0 +1,11 @@
+multiBaseCalc
+- entering numbers in any base (2-36)
+- displaying numbers in any base
+- converting between bases
+- performing calculations, with fractional part
+- operations: + - * / sqrt
+- editing entered number (backspace)
+- calculations like simple calculator, no fancy memory, history
+
+todo:
+- converting between bases
