@@ -100,7 +100,7 @@ namespace multiBaseCalc
             {
                 operation = k;
 
-                firstNumber = model.StringToDouble(editedNumber.ToString(), @base);
+                firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                 //if (!double.TryParse(editedNumber.ToString(), out firstNumber))//
                 //{
                 //    firstNumber = 0.0;
@@ -117,7 +117,7 @@ namespace multiBaseCalc
                 {
                     double secondNumber;
 
-                    secondNumber = model.StringToDouble(editedNumber.ToString(), @base);
+                    secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                     //if (!double.TryParse(editedNumber.ToString(), out secondNumber))//
                     //{
                     //    secondNumber = 0.0;
@@ -146,7 +146,7 @@ namespace multiBaseCalc
                     label1.Text = result.ToString();//
                     //FIXME make floating point
                     //label1.Text = IntToString((int)result, @base);
-                    label1.Text = model.DoubleToString(result, @base);
+                    label1.Text = BaseConverter.DoubleToString(result, @base);
 
                     operation = '\0';
                 }

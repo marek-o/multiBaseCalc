@@ -5,12 +5,9 @@ namespace TestProject
 {
     public class Tests
     {
-        private Model model;
-
         [SetUp]
         public void Setup()
         {
-            model = new Model();
         }
 
 
@@ -50,7 +47,7 @@ namespace TestProject
         [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
         public void TestStringToDoubleBase10(string input, double expected)
         {
-            Assert.AreEqual(expected, model.StringToDouble(input, 10));
+            Assert.AreEqual(expected, BaseConverter.StringToDouble(input, 10));
         }
 
         [TestCase("0", 0.0)]
@@ -81,7 +78,7 @@ namespace TestProject
         [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
         public void TestDoubleToStringBase10(string expected, double input)
         {
-            Assert.AreEqual(expected, model.DoubleToString(input, 10));
+            Assert.AreEqual(expected, BaseConverter.DoubleToString(input, 10));
         }
 
         [TestCase("", 0.0)]
@@ -121,7 +118,7 @@ namespace TestProject
         [TestCase("-0.000000000000000000000000000000101", -5.82076609134674072265625e-10)]
         public void TestBase2(string s, double expected)
         {
-            Assert.AreEqual(expected, model.StringToDouble(s, 2));
+            Assert.AreEqual(expected, BaseConverter.StringToDouble(s, 2));
         }
 
         [TestCase("", 0.0)]
@@ -141,7 +138,7 @@ namespace TestProject
         [TestCase("0.001", 0.000244140625)]
         public void TestBase16(string s, double expected)
         {
-            Assert.AreEqual(expected, model.StringToDouble(s, 16));
+            Assert.AreEqual(expected, BaseConverter.StringToDouble(s, 16));
         }
     }
 }
