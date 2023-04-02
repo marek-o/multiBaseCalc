@@ -74,10 +74,6 @@ namespace multiBaseCalc
                 operation = k;
 
                 firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                //if (!double.TryParse(editedNumber.ToString(), out firstNumber))//
-                //{
-                //    firstNumber = 0.0;
-                //}
                 editedNumber.Clear();
 
                 //DEBUG
@@ -91,10 +87,6 @@ namespace multiBaseCalc
                     double secondNumber;
 
                     secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    //if (!double.TryParse(editedNumber.ToString(), out secondNumber))//
-                    //{
-                    //    secondNumber = 0.0;
-                    //}
                     editedNumber.Clear();
 
                     double result = 0.0;
@@ -115,16 +107,11 @@ namespace multiBaseCalc
                         result = firstNumber / secondNumber;
                     }
 
-                    view.SetNumber(result.ToString());//
-                    //FIXME make floating point
-                    //label1.Text = IntToString((int)result, @base);
                     view.SetNumber(BaseConverter.DoubleToString(result, @base));
 
                     operation = '\0';
                 }
             }
-
-            //if (e.KeyCode == Keys.Oemplus || e.KeyCode == Keys.OemMinus)
         }
 
         private void UpdateEditedNumber()
