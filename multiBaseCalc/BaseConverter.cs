@@ -30,7 +30,7 @@ namespace multiBaseCalc
             return (whole + (frac / fracD)) * (negative ? -1 : 1);
         }
 
-        private static int CharToInt(char k, int @base)
+        public static int CharToInt(char k, int @base)
         {
             char kLower = char.ToLower(k);
             int d = 0;

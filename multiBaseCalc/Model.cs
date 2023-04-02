@@ -35,15 +35,9 @@ namespace multiBaseCalc
         {
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
             {
-                char kLower = char.ToLower(k);
-                int d = 0;
-
-                if (kLower <= '9') d = kLower - '0';
-                else d = kLower - 'a' + 10;
-
-                if (d < @base)
+                if (BaseConverter.CharToInt(k, @base) >= 0)
                 {
-                    editedNumber.Append(kLower);
+                    editedNumber.Append(char.ToLower(k));
                     UpdateEditedNumber();
                 }
             }
