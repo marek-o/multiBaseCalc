@@ -38,20 +38,20 @@ namespace multiBaseCalc
                 if (BaseConverter.CharToInt(k, @base) >= 0)
                 {
                     editedNumber.Append(char.ToLower(k));
-                    UpdateEditedNumber();
+                    DisplayEditedNumber();
                 }
             }
 
             if (k == '.' || k == ',')
             {
                 editedNumber.Append('.');
-                UpdateEditedNumber();
+                DisplayEditedNumber();
             }
 
             if (k == (int)Keys.Escape)
             {
                 editedNumber.Clear();
-                UpdateEditedNumber();
+                DisplayEditedNumber();
             }
 
             if (k == (int)Keys.Back)
@@ -60,7 +60,7 @@ namespace multiBaseCalc
                 {
                     editedNumber.Remove(editedNumber.Length - 1, 1);
                 }
-                UpdateEditedNumber();
+                DisplayEditedNumber();
             }
 
             if (k == '*' || k == '/' || k == '+' || k == '-')
@@ -108,7 +108,7 @@ namespace multiBaseCalc
             }
         }
 
-        private void UpdateEditedNumber()
+        private void DisplayEditedNumber()
         {
             if (editedNumber.Length == 0)
             {
