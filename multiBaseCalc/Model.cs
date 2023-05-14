@@ -9,7 +9,7 @@ namespace multiBaseCalc
 {
     public class Model
     {
-        private Form1 view = null;
+        private IView view = null;
 
         private int @base = 10;
 
@@ -17,7 +17,7 @@ namespace multiBaseCalc
         private char operation = '\0';
         private double firstNumber = 0.0;
 
-        public void SetView(Form1 view)
+        public void SetView(IView view)
         {
             if (this.view != null)
             {

@@ -10,7 +10,14 @@ using System.Windows.Forms;
 
 namespace multiBaseCalc
 {
-    public partial class Form1 : Form
+    public interface IView
+    {
+        public void SetNumber(string s);
+        public void SetBaseLabel(string s);
+        public event Action<char> KeyPressed;
+    }
+
+    public partial class Form1 : Form, IView
     {
         public Form1()
         {
