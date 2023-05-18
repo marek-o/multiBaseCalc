@@ -33,6 +33,20 @@ namespace multiBaseCalc
 
         private void View_KeyPressed(char k)
         {
+            if (k == '[' || k == ']')
+            {
+                var num = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+
+                int dir = k == ']' ? 1 : -1;
+                @base = Math.Max(2, Math.Min(36, @base + dir));
+                UpdateBaseLabel();
+
+                var newStr = BaseConverter.DoubleToString(num, @base);
+                view.SetNumber(newStr);
+                editedNumber.Clear();
+                editedNumber.Append(newStr);
+            }
+
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
             {
                 if (BaseConverter.CharToInt(k, @base) >= 0)
