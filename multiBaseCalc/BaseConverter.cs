@@ -170,8 +170,14 @@ namespace multiBaseCalc
 
             string strFrac = FractionToString(frac, @base);
 
-            //FIXME special case when strFrac=="0"
-            return string.Format("{0}{1}.{2}", minus, strWhole, strFrac);
+            var sb = new StringBuilder();
+            sb.AppendFormat("{0}{1}", minus, strWhole);
+
+            if (!strFrac.Equals("0"))
+            {
+                sb.AppendFormat(".{0}", strFrac);
+            }
+            return sb.ToString();
         }
     }
 }
