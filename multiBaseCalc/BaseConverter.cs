@@ -65,12 +65,22 @@ namespace multiBaseCalc
                 s = s.Remove(0, 1);
             }
 
-            for (int i = 0; i < s.Length; ++i)
+            try
             {
-                output *= @base;
-                int d = CharToInt(s[i], @base);
-                if (d < 0) throw new Exception("invalid character");
-                output += d;
+                for (int i = 0; i < s.Length; ++i)
+                {
+                    checked
+                    {
+                        output *= @base;
+                        int d = CharToInt(s[i], @base);
+                        if (d < 0) throw new Exception("invalid character");
+                        output += d;
+                    }
+                }
+            }
+            catch (OverflowException)
+            {
+                output = int.MaxValue; //FIXME?
             }
 
             if (negative)
