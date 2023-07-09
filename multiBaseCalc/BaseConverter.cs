@@ -8,8 +8,11 @@ namespace multiBaseCalc
 {
     public class BaseConverter
     {
+        private static string digits = "0123456789abcdefghijklmnopqrstuvwxyz";
+
         public static double StringToDouble(string s, int @base)
         {
+            //FIXME disallow of even entering second decimal point (earlier)
             var substrings = s.Split(new char[] { '.', ',' }, 2);
             if (substrings.Length < 2)
             {
@@ -38,12 +41,12 @@ namespace multiBaseCalc
             if (kLower <= '9') d = kLower - '0';
             else d = kLower - 'a' + 10;
 
-            if (d < @base)
+            if (d >= 0 && d < @base)
             {
                 return d;
             }
 
-            return -1;//FIXME
+            throw new ArgumentException("character out of range");
         }
 
         private static int StringToInt(string s, int @base)
@@ -59,7 +62,7 @@ namespace multiBaseCalc
             if (s[0] == '-')
             {
                 negative = true;
-                s = s.Remove(0, 1);//FIXME?
+                s = s.Remove(0, 1);
             }
 
             for (int i = 0; i < s.Length; ++i)
@@ -77,10 +80,8 @@ namespace multiBaseCalc
             return output;
         }
 
-        private static string IntToString(int i, int @base)
+        private static string IntToString(int i, int @base) //change to 64-bit
         {
-            string digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-
             if (@base < 2 || @base > 36)
             {
                 throw new ArgumentException("base");
@@ -117,8 +118,6 @@ namespace multiBaseCalc
 
         private static string FractionToString(double i, int @base)
         {
-            string digits = "0123456789abcdefghijklmnopqrstuvwxyz";
-
             if (@base < 2 || @base > 36)
             {
                 throw new ArgumentException("base");
@@ -126,19 +125,26 @@ namespace multiBaseCalc
 
             StringBuilder output = new StringBuilder();
 
+            if (i >= 1.0)
+            {
+                throw new ArgumentException("not a fraction");
+            }
+
             if (i < 0)
             {
                 throw new ArgumentException("negative number not supported");
-                //negative = true;
-                //i = -i;
             }
 
-            while (i > 0) //FIXME rounding errors, max iteration count
+            int iteration = 0;
+
+            //pass max iteration count as parameter?
+            while (i > 0 && iteration < 1000) //FIXME rounding errors
             {
                 i *= @base;
                 int d = (int)Math.Floor(i);
                 output.Append(digits[d]);
                 i -= d;
+                iteration++;
             }
 
             if (output.Length == 0)
@@ -151,20 +157,21 @@ namespace multiBaseCalc
 
         public static string DoubleToString(double i, int @base)
         {
+            //FIXME inf, nan?
             bool negative = i < 0;
             i = Math.Abs(i);
             double whole = Math.Floor(i);
-            double frac = i % 1; //FIXME negative
+            double frac = i % 1;
 
             string minus = negative ? "-" : "";
 
+            //FIXME check for overflow?
             string strWhole = IntToString((int)whole, @base);
 
             string strFrac = FractionToString(frac, @base);
 
+            //FIXME special case when strFrac=="0"
             return string.Format("{0}{1}.{2}", minus, strWhole, strFrac);
-            //FIXME
-            //return IntToString((int)i, @base);
         }
     }
 }
