@@ -46,7 +46,7 @@ namespace multiBaseCalc
                 return d;
             }
 
-            throw new ArgumentException("character out of range");
+            return -1;
         }
 
         private static int StringToInt(string s, int @base)
@@ -69,6 +69,7 @@ namespace multiBaseCalc
             {
                 output *= @base;
                 int d = CharToInt(s[i], @base);
+                if (d < 0) throw new Exception("invalid character");
                 output += d;
             }
 
