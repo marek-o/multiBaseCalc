@@ -58,8 +58,11 @@ namespace multiBaseCalc
 
             if (k == '.' || k == ',')
             {
-                editedNumber.Append('.');
-                DisplayEditedNumber();
+                if (!editedNumber.ToString().Any(i => i == '.' || i == ','))
+                {
+                    editedNumber.Append('.');
+                    DisplayEditedNumber();
+                }
             }
 
             if (k == (int)Keys.Escape)
