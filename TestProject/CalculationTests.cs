@@ -156,5 +156,38 @@ namespace TestProject
             view.PressKey("80/2=");
             Assert.AreEqual("40", view.numberText);
         }
+
+        [Test]
+        public void ChangingOperation()
+        {
+            view.PressKey("1000");
+            Assert.AreEqual("1000", view.numberText);
+            view.PressKey("+*25");
+            Assert.AreEqual("25", view.numberText);
+            view.PressKey("=");
+            Assert.AreEqual("25000", view.numberText);
+        }
+
+        [Test]
+        public void Chain_WithoutEqualsKey()
+        {
+            view.PressKey("2*32*");
+            Assert.AreEqual("64", view.numberText);
+            view.PressKey("4+");
+            Assert.AreEqual("256", view.numberText);
+            view.PressKey("1=");
+            Assert.AreEqual("257", view.numberText);
+        }
+
+        [Test]
+        public void Repeating_Basic()
+        {
+            view.PressKey("1000+1=");
+            Assert.AreEqual("1001", view.numberText);
+            view.PressKey("=");
+            Assert.AreEqual("1002", view.numberText);
+            view.PressKey("=");
+            Assert.AreEqual("1003", view.numberText);
+        }
     }
 }
