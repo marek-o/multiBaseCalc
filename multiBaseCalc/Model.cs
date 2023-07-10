@@ -104,19 +104,22 @@ namespace multiBaseCalc
 
             if (k == '*' || k == '/' || k == '+' || k == '-')
             {
+                if (operation.Equals('\0'))
+                {
+                    if (resultMode)
+                    {
+                        firstNumber = lastResult;
+                    }
+                    else
+                    {
+                        firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    }
+                    editedNumber.Clear();
+
+                    resultMode = false;
+                }
+
                 operation = k;
-
-                if (resultMode)
-                {
-                    firstNumber = lastResult;
-                }
-                else
-                {
-                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                }
-                editedNumber.Clear();
-
-                resultMode = false;
 
                 //DEBUG
                 //Text = string.Format("{0} {1}", firstNumber, operation.ToString());
