@@ -26,17 +26,17 @@ namespace multiBaseCalc
                 substrings[0] = substrings[0].Substring(1);
             }
 
-            int whole = StringToInt(substrings[0], @base);
-            int frac = StringToInt(substrings[1], @base);
+            var whole = StringToInt(substrings[0], @base);
+            var frac = StringToInt(substrings[1], @base);
             double fracD = Math.Pow(@base, substrings[1].Length);
 
             return (whole + (frac / fracD)) * (negative ? -1 : 1);
         }
 
-        public static int CharToInt(char k, int @base)
+        public static long CharToInt(char k, int @base)
         {
             char kLower = char.ToLower(k);
-            int d = 0;
+            var d = 0;
 
             if (kLower <= '9') d = kLower - '0';
             else d = kLower - 'a' + 10;
@@ -49,14 +49,14 @@ namespace multiBaseCalc
             return -1;
         }
 
-        private static int StringToInt(string s, int @base)
+        private static long StringToInt(string s, int @base)
         {
             if (s.Length == 0)
             {
                 return 0;
             }
 
-            int output = 0;
+            long output = 0;
             bool negative = false;
 
             if (s[0] == '-')
@@ -72,7 +72,7 @@ namespace multiBaseCalc
                     checked
                     {
                         output *= @base;
-                        int d = CharToInt(s[i], @base);
+                        var d = CharToInt(s[i], @base);
                         if (d < 0) throw new Exception("invalid character");
                         output += d;
                     }
@@ -80,7 +80,7 @@ namespace multiBaseCalc
             }
             catch (OverflowException)
             {
-                output = int.MaxValue; //FIXME?
+                output = long.MaxValue; //FIXME?
             }
 
             if (negative)
@@ -91,7 +91,7 @@ namespace multiBaseCalc
             return output;
         }
 
-        private static string IntToString(int i, int @base) //change to 64-bit
+        private static string IntToString(long i, int @base)
         {
             if (@base < 2 || @base > 36)
             {
@@ -109,7 +109,7 @@ namespace multiBaseCalc
 
             while (i > 0)
             {
-                int d = i % @base;
+                int d = (int)(i % @base);
                 i /= @base;
                 output.Append(digits[d]);
             }
@@ -177,7 +177,7 @@ namespace multiBaseCalc
             string minus = negative ? "-" : "";
 
             //FIXME check for overflow?
-            string strWhole = IntToString((int)whole, @base);
+            string strWhole = IntToString((long)whole, @base);
 
             string strFrac = FractionToString(frac, @base);
 
