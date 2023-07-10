@@ -14,8 +14,10 @@ namespace multiBaseCalc
         private int @base = 10;
 
         private StringBuilder editedNumber = new StringBuilder();
+        private double lastResult = 0.0;
         private char operation = '\0';
         private double firstNumber = 0.0;
+        private bool resultMode = false;
 
         public void SetView(IView view)
         {
@@ -35,7 +37,15 @@ namespace multiBaseCalc
         {
             if (k == '[' || k == ']')
             {
-                var num = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                double num;
+                if (resultMode)
+                {
+                    num = lastResult;
+                }
+                else
+                {
+                    num = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                }
 
                 int dir = k == ']' ? 1 : -1;
                 @base = Math.Max(2, Math.Min(36, @base + dir));
@@ -45,6 +55,9 @@ namespace multiBaseCalc
                 view.SetNumber(newStr);
                 editedNumber.Clear();
                 editedNumber.Append(newStr);
+                
+                lastResult = num;
+                resultMode = true;
             }
 
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
@@ -53,6 +66,8 @@ namespace multiBaseCalc
                 {
                     editedNumber.Append(char.ToLower(k));
                     DisplayEditedNumber();
+
+                    resultMode = false;
                 }
             }
 
@@ -62,6 +77,8 @@ namespace multiBaseCalc
                 {
                     editedNumber.Append('.');
                     DisplayEditedNumber();
+
+                    resultMode = false;
                 }
             }
 
@@ -69,23 +86,37 @@ namespace multiBaseCalc
             {
                 editedNumber.Clear();
                 DisplayEditedNumber();
+                lastResult = 0.0;
+                resultMode = true;
             }
 
             if (k == (int)Keys.Back)
             {
-                if (editedNumber.Length >= 1)
+                if (!resultMode)
                 {
-                    editedNumber.Remove(editedNumber.Length - 1, 1);
+                    if (editedNumber.Length >= 1)
+                    {
+                        editedNumber.Remove(editedNumber.Length - 1, 1);
+                    }
+                    DisplayEditedNumber();
                 }
-                DisplayEditedNumber();
             }
 
             if (k == '*' || k == '/' || k == '+' || k == '-')
             {
                 operation = k;
 
-                firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                if (resultMode)
+                {
+                    firstNumber = lastResult;
+                }
+                else
+                {
+                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                }
                 editedNumber.Clear();
+
+                resultMode = false;
 
                 //DEBUG
                 //Text = string.Format("{0} {1}", firstNumber, operation.ToString());
@@ -120,7 +151,14 @@ namespace multiBaseCalc
 
                     view.SetNumber(BaseConverter.DoubleToString(result, @base));
 
+                    lastResult = result;
+                    resultMode = true;
+
                     operation = '\0';
+                }
+                else
+                {
+                    //else set resultMode to true?
                 }
             }
         }

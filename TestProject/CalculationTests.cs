@@ -136,17 +136,6 @@ namespace TestProject
         }
 
         [Test]
-        public void Editing_Result() //FIXME should it be this way?
-        {
-            view.PressKey("222+333=");
-            Assert.AreEqual("555", view.numberText);
-            view.PressKey(Keys.Back);
-            Assert.AreEqual("55", view.numberText);
-            view.PressKey(Keys.Back);
-            Assert.AreEqual("5", view.numberText);
-        }
-
-        [Test]
         public void Chain()
         {
             view.PressKey("2*32=");
