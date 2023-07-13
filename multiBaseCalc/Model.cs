@@ -134,23 +134,7 @@ namespace multiBaseCalc
                     secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                     editedNumber.Clear();
 
-                    double result = 0.0;
-                    if (operation == '+')
-                    {
-                        result = firstNumber + secondNumber;
-                    }
-                    else if (operation == '-')
-                    {
-                        result = firstNumber - secondNumber;
-                    }
-                    else if (operation == '*')
-                    {
-                        result = firstNumber * secondNumber;
-                    }
-                    else if (operation == '/')
-                    {
-                        result = firstNumber / secondNumber;
-                    }
+                    double result = PerformOperation(operation, firstNumber, secondNumber);
 
                     view.SetNumber(BaseConverter.DoubleToString(result, @base));
 
@@ -165,6 +149,16 @@ namespace multiBaseCalc
                 }
             }
         }
+
+        private double PerformOperation(char operation, double lhs, double rhs)
+        {
+            if (operation == '+') return lhs + rhs;
+            if (operation == '-') return lhs - rhs;
+            if (operation == '*') return lhs * rhs;
+            if (operation == '/') return lhs / rhs;
+
+            throw new ArgumentException("invalid operation");
+        } 
 
         private void DisplayEditedNumber()
         {
