@@ -189,5 +189,67 @@ namespace TestProject
             view.PressKey("=");
             Assert.AreEqual("1003", view.numberText);
         }
+
+        [Test]
+        public void Variants()
+        {
+            view.PressKey("1000+1=");
+            Assert.AreEqual("1001", view.numberText);
+            view.PressKey("2000=");
+            Assert.AreEqual("2001", view.numberText);
+            view.PressKey("1234=");
+            Assert.AreEqual("1235", view.numberText);
+        }
+
+        [Test]
+        public void WithItself()
+        {
+            view.PressKey("1000+=");
+            Assert.AreEqual("2000", view.numberText);
+            view.PressKey("321-=");
+            Assert.AreEqual("0", view.numberText);
+            view.PressKey("32*=");
+            Assert.AreEqual("1024", view.numberText);
+            view.PressKey("444/=");
+            Assert.AreEqual("1", view.numberText);
+        }
+
+        [Test]
+        public void Negating()
+        {
+            view.PressKey("321-==");
+            Assert.AreEqual("-321", view.numberText);
+        }
+
+        [Test]
+        public void Repeating_Empty()
+        {
+            view.PressKey("=");
+            Assert.AreEqual("0", view.numberText);
+        }
+
+        [Test]
+        public void Variant_Empty()
+        {
+            view.PressKey("1234=");
+            Assert.AreEqual("1234", view.numberText);
+        }
+
+        [Test]
+        public void Clearing()
+        {
+            view.PressKey("123+333=");
+            Assert.AreEqual("456", view.numberText);
+
+            view.PressKey(Keys.Escape);
+            Assert.AreEqual("0", view.numberText);
+            view.PressKey("111=");
+            Assert.AreEqual("111", view.numberText);
+
+            view.PressKey(Keys.Escape);
+            Assert.AreEqual("0", view.numberText);
+            view.PressKey("+444=");
+            Assert.AreEqual("444", view.numberText);
+        }
     }
 }
