@@ -76,6 +76,10 @@ namespace TestProject
         [TestCase("0.0000000000000001", 1e-16)]
         [TestCase("-0.0000000000000000000000000000001", -1e-31)]
         [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
+
+        [TestCase("[+inf]", double.PositiveInfinity)]
+        [TestCase("[-inf]", double.NegativeInfinity)]
+        [TestCase("[NaN]", double.NaN)]
         public void TestDoubleToStringBase10(string expected, double input)
         {
             Assert.AreEqual(expected, BaseConverter.DoubleToString(input, 10));

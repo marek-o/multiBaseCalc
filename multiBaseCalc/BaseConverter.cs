@@ -168,7 +168,10 @@ namespace multiBaseCalc
 
         public static string DoubleToString(double i, int @base)
         {
-            //FIXME inf, nan?
+            if (i == double.PositiveInfinity) return "[+inf]";
+            if (i == double.NegativeInfinity) return "[-inf]";
+            if (double.IsNaN(i)) return "[NaN]";
+
             bool negative = i < 0;
             i = Math.Abs(i);
             double whole = Math.Floor(i);
