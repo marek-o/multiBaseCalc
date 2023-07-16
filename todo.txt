@@ -15,6 +15,6 @@ todo:
 - buttons for specific bases, 16, 10, 8, 2
 - add buttons to GUI?
 - handle truncating in view
-- add internal state indicators? or in debug only?
+//- add internal state indicators? or in debug only?
 
 - idea: button for entering edit mode when in result mode

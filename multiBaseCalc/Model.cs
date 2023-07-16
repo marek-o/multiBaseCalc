@@ -132,9 +132,6 @@ namespace multiBaseCalc
 
                 state = CalculationState.EnteringOperation;
                 operation = k;
-
-                //DEBUG
-                //Text = string.Format("{0} {1}", firstNumber, operation.ToString());
             }
 
             if (k == '=' || k == (int)Keys.Enter)
@@ -163,6 +160,13 @@ namespace multiBaseCalc
                 DisplayResult();
                 state = CalculationState.Result;
             }
+
+            //DEBUG
+            //(view as Form1).Text = string.Format(
+            //    "{0}{1} {2}{3} {4}{5}",
+            //    state == CalculationState.EnteringFirst ? ">" : "", firstNumber,
+            //    state == CalculationState.EnteringOperation ? ">" : "", operation.ToString(),
+            //    state == CalculationState.EnteringSecond ? ">" : "", secondNumber);
         }
 
         private double CommitEditedNumber()
