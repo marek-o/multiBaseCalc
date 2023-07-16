@@ -43,8 +43,7 @@ namespace multiBaseCalc
             {
                 if (state == CalculationState.EnteringFirst)
                 {
-                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    editedNumber.Clear();
+                    firstNumber = CommitEditedNumber();
                     state = CalculationState.Result;
                 }
 
@@ -121,13 +120,11 @@ namespace multiBaseCalc
             {
                 if (state == CalculationState.EnteringFirst)
                 {
-                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    editedNumber.Clear();
+                    firstNumber = CommitEditedNumber();
                 }
                 else if (state == CalculationState.EnteringSecond)
                 {
-                    secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    editedNumber.Clear();
+                    secondNumber = CommitEditedNumber();
 
                     firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                     view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
@@ -149,8 +146,7 @@ namespace multiBaseCalc
                 else if (state == CalculationState.EnteringFirst)
                 {
                     //variant
-                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    editedNumber.Clear();
+                    firstNumber = CommitEditedNumber();
                 }
                 else if (state == CalculationState.EnteringOperation)
                 {
@@ -160,14 +156,20 @@ namespace multiBaseCalc
                 else if (state == CalculationState.EnteringSecond)
                 {
                     //normal calculation
-                    secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    editedNumber.Clear();
+                    secondNumber = CommitEditedNumber();
                 }
 
                 firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
                 state = CalculationState.Result;
             }
+        }
+
+        private double CommitEditedNumber()
+        {
+            double res = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+            editedNumber.Clear();
+            return res;
         }
 
         private double PerformOperation(char operation, double lhs, double rhs)
