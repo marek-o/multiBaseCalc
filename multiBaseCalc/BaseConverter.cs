@@ -49,14 +49,14 @@ namespace multiBaseCalc
             return -1;
         }
 
-        private static long StringToInt(string s, int @base)
+        private static double StringToInt(string s, int @base)
         {
             if (s.Length == 0)
             {
                 return 0;
             }
 
-            long output = 0;
+            double output = 0;
             bool negative = false;
 
             if (s[0] == '-')
@@ -65,22 +65,12 @@ namespace multiBaseCalc
                 s = s.Remove(0, 1);
             }
 
-            try
+            for (int i = 0; i < s.Length; ++i)
             {
-                for (int i = 0; i < s.Length; ++i)
-                {
-                    checked
-                    {
-                        output *= @base;
-                        var d = CharToInt(s[i], @base);
-                        if (d < 0) throw new Exception("invalid character");
-                        output += d;
-                    }
-                }
-            }
-            catch (OverflowException)
-            {
-                output = long.MaxValue; //FIXME?
+                output *= @base;
+                var d = CharToInt(s[i], @base);
+                if (d < 0) throw new Exception("invalid character");
+                output += d;
             }
 
             if (negative)
