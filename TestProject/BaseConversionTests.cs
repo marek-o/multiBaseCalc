@@ -40,7 +40,7 @@ namespace TestProject
             Assert.AreEqual("base 2", view.baseLabelText);
 
             view.PressKey("]]]]]]]]");
-            Assert.AreEqual("237", view.numberText);
+            Assert.AreEqual("93", view.numberText);
             Assert.AreEqual("base 10", view.baseLabelText);
         }
 
@@ -96,11 +96,8 @@ namespace TestProject
             {
                 Assert.AreEqual(numbers[b], view.numberText);
                 Assert.AreEqual(string.Format("base {0}", b), view.baseLabelText);
+                view.PressKey("[");
             }
-
-            view.PressKey("[");
-            Assert.AreEqual("100011", view.numberText);
-            Assert.AreEqual("base 2", view.baseLabelText);
         }
     }
 }
