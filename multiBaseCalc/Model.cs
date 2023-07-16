@@ -158,7 +158,8 @@ namespace multiBaseCalc
                 else if (state == CalculationState.EnteringOperation)
                 {
                     //with itself
-                    firstNumber = PerformOperation(operation, firstNumber, firstNumber);
+                    secondNumber = firstNumber;
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
                 else if (state == CalculationState.EnteringSecond)
                 {
