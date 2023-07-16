@@ -51,7 +51,7 @@ namespace multiBaseCalc
                 @base = Math.Max(2, Math.Min(36, @base + dir));
                 UpdateBaseLabel();
 
-                view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+                DisplayResult();
             }
 
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
@@ -127,7 +127,7 @@ namespace multiBaseCalc
                     secondNumber = CommitEditedNumber();
 
                     firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                    view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+                    DisplayResult();
                 }
 
                 state = CalculationState.EnteringOperation;
@@ -160,7 +160,7 @@ namespace multiBaseCalc
                 }
 
                 firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+                DisplayResult();
                 state = CalculationState.Result;
             }
         }
@@ -181,6 +181,11 @@ namespace multiBaseCalc
 
             throw new ArgumentException("invalid operation");
         } 
+
+        private void DisplayResult()
+        {
+            view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+        }
 
         private void DisplayEditedNumber()
         {
