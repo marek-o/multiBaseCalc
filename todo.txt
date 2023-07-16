@@ -10,5 +10,6 @@ multiBaseCalc
 todo:
 - converting between bases
 
+- ignore 0 at the beginning
 
 - idea: button for entering edit mode when in result mode

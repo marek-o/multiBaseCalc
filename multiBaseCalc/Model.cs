@@ -14,10 +14,11 @@ namespace multiBaseCalc
         private int @base = 10;
 
         private StringBuilder editedNumber = new StringBuilder();
-        private double lastResult = 0.0;
-        private char operation = '\0';
-        private double firstNumber = 0.0;
-        private bool resultMode = false;
+        private char operation = '+';
+        private double firstNumber = 0.0; //or result
+        private double secondNumber = 0.0;
+ 
+        private CalculationState state = CalculationState.Result;
 
         public void SetView(IView view)
         {
@@ -35,14 +36,17 @@ namespace multiBaseCalc
 
         private void View_KeyPressed(char k)
         {
-            if (k == '[' || k == ']')
+            if ((k == '[' || k == ']')
+                &&
+                  (state == CalculationState.Result
+                || state == CalculationState.EnteringFirst))
             {
-                double num;
-                if (resultMode)
+                double num = 0.0;
+                if (state == CalculationState.Result)
                 {
-                    num = lastResult;
+                    num = firstNumber;
                 }
-                else
+                else if (state == CalculationState.EnteringFirst)
                 {
                     num = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                 }
@@ -54,20 +58,26 @@ namespace multiBaseCalc
                 var newStr = BaseConverter.DoubleToString(num, @base);
                 view.SetNumber(newStr);
                 editedNumber.Clear();
-                editedNumber.Append(newStr);
                 
-                lastResult = num;
-                resultMode = true;
+                firstNumber = num;
+                state = CalculationState.Result;
             }
 
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
             {
                 if (BaseConverter.CharToInt(k, @base) >= 0)
                 {
+                    if (state == CalculationState.Result)
+                    {
+                        state = CalculationState.EnteringFirst;
+                    }
+                    else if (state == CalculationState.EnteringOperation)
+                    {
+                        state = CalculationState.EnteringSecond;
+                    }
+
                     editedNumber.Append(char.ToLower(k));
                     DisplayEditedNumber();
-
-                    resultMode = false;
                 }
             }
 
@@ -75,10 +85,17 @@ namespace multiBaseCalc
             {
                 if (!editedNumber.ToString().Any(i => i == '.' || i == ','))
                 {
+                    if (state == CalculationState.Result)
+                    {
+                        state = CalculationState.EnteringFirst;
+                    }
+                    else if (state == CalculationState.EnteringOperation)
+                    {
+                        state = CalculationState.EnteringSecond;
+                    }
+
                     editedNumber.Append('.');
                     DisplayEditedNumber();
-
-                    resultMode = false;
                 }
             }
 
@@ -86,13 +103,19 @@ namespace multiBaseCalc
             {
                 editedNumber.Clear();
                 DisplayEditedNumber();
-                lastResult = 0.0;
-                resultMode = true;
+
+                firstNumber = 0.0;
+                secondNumber = 0.0;
+
+                operation = '+';
+
+                state = CalculationState.Result;
             }
 
             if (k == (int)Keys.Back)
             {
-                if (!resultMode)
+                if (state == CalculationState.EnteringFirst
+                    || state == CalculationState.EnteringSecond)
                 {
                     if (editedNumber.Length >= 1)
                     {
@@ -104,21 +127,20 @@ namespace multiBaseCalc
 
             if (k == '*' || k == '/' || k == '+' || k == '-')
             {
-                if (operation.Equals('\0'))
+                if (state == CalculationState.EnteringFirst)
                 {
-                    if (resultMode)
-                    {
-                        firstNumber = lastResult;
-                    }
-                    else
-                    {
-                        firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
-                    }
-                    editedNumber.Clear();
+                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
 
-                    resultMode = false;
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                    view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
                 }
 
+                editedNumber.Clear();
+                state = CalculationState.EnteringOperation;
                 operation = k;
 
                 //DEBUG
@@ -127,26 +149,35 @@ namespace multiBaseCalc
 
             if (k == '=' || k == (int)Keys.Enter)
             {
-                if (operation != 0)
+                if (state == CalculationState.Result)
                 {
-                    double secondNumber;
+                    //repeat
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                }
+                else if (state == CalculationState.EnteringFirst)
+                {
+                    //variant
+                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    editedNumber.Clear();
 
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    //with itself
+                    firstNumber = PerformOperation(operation, firstNumber, firstNumber);
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    //normal calculation
                     secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                     editedNumber.Clear();
 
-                    double result = PerformOperation(operation, firstNumber, secondNumber);
-
-                    view.SetNumber(BaseConverter.DoubleToString(result, @base));
-
-                    lastResult = result;
-                    resultMode = true;
-
-                    operation = '\0';
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
-                else
-                {
-                    //else set resultMode to true?
-                }
+
+                view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+                state = CalculationState.Result;
             }
         }
 
