@@ -91,7 +91,7 @@ namespace multiBaseCalc
             return output;
         }
 
-        private static string IntToString(long i, int @base)
+        private static string IntToString(double i, int @base)
         {
             if (@base < 2 || @base > 36)
             {
@@ -99,6 +99,9 @@ namespace multiBaseCalc
             }
 
             StringBuilder output = new StringBuilder();
+
+            //FIXME what if i is over 2^52?
+            i = Math.Floor(i);
 
             bool negative = false;
             if (i < 0)
@@ -110,7 +113,7 @@ namespace multiBaseCalc
             while (i > 0)
             {
                 int d = (int)(i % @base);
-                i /= @base;
+                i = Math.Floor(i / @base);
                 output.Append(digits[d]);
             }
 
@@ -180,7 +183,7 @@ namespace multiBaseCalc
             string minus = negative ? "-" : "";
 
             //FIXME check for overflow?
-            string strWhole = IntToString((long)whole, @base);
+            string strWhole = IntToString(whole, @base);
 
             string strFrac = FractionToString(frac, @base);
 
