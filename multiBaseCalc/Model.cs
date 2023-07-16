@@ -41,26 +41,18 @@ namespace multiBaseCalc
                   (state == CalculationState.Result
                 || state == CalculationState.EnteringFirst))
             {
-                double num = 0.0;
-                if (state == CalculationState.Result)
+                if (state == CalculationState.EnteringFirst)
                 {
-                    num = firstNumber;
-                }
-                else if (state == CalculationState.EnteringFirst)
-                {
-                    num = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    editedNumber.Clear();
+                    state = CalculationState.Result;
                 }
 
                 int dir = k == ']' ? 1 : -1;
                 @base = Math.Max(2, Math.Min(36, @base + dir));
                 UpdateBaseLabel();
 
-                var newStr = BaseConverter.DoubleToString(num, @base);
-                view.SetNumber(newStr);
-                editedNumber.Clear();
-                
-                firstNumber = num;
-                state = CalculationState.Result;
+                view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
             }
 
             if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
@@ -130,16 +122,17 @@ namespace multiBaseCalc
                 if (state == CalculationState.EnteringFirst)
                 {
                     firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    editedNumber.Clear();
                 }
                 else if (state == CalculationState.EnteringSecond)
                 {
                     secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
+                    editedNumber.Clear();
 
                     firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                     view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
                 }
 
-                editedNumber.Clear();
                 state = CalculationState.EnteringOperation;
                 operation = k;
 
