@@ -145,31 +145,26 @@ namespace multiBaseCalc
                 if (state == CalculationState.Result)
                 {
                     //repeat
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
                 else if (state == CalculationState.EnteringFirst)
                 {
                     //variant
                     firstNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                     editedNumber.Clear();
-
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
                 else if (state == CalculationState.EnteringOperation)
                 {
                     //with itself
                     secondNumber = firstNumber;
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
                 else if (state == CalculationState.EnteringSecond)
                 {
                     //normal calculation
                     secondNumber = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
                     editedNumber.Clear();
-
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 }
 
+                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                 view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
                 state = CalculationState.Result;
             }
