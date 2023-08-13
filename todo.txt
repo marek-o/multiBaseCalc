@@ -8,10 +8,10 @@ multiBaseCalc
 - calculations like simple calculator, no fancy memory, history
 
 todo:
-- converting between bases
+//- converting between bases
 
-- ignore 0 at the beginning
-- detecting infinity, div/0
+//- ignore 0 at the beginning
+//- detecting infinity, div/0
 - buttons for specific bases, 16, 10, 8, 2
 - add buttons to GUI?
 - handle truncating in view

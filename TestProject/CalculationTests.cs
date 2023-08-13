@@ -136,6 +136,15 @@ namespace TestProject
         }
 
         [Test]
+        public void Editing_LeadingZero()
+        {
+            view.PressKey("000");
+            Assert.AreEqual("0", view.numberText);
+            view.PressKey("2");
+            Assert.AreEqual("2", view.numberText);
+        }
+
+        [Test]
         public void Chain()
         {
             view.PressKey("2*32=");

@@ -67,7 +67,10 @@ namespace multiBaseCalc
                         state = CalculationState.EnteringSecond;
                     }
 
-                    editedNumber.Append(char.ToLower(k));
+                    if (k != '0' || editedNumber.Length > 0)
+                    {
+                        editedNumber.Append(char.ToLower(k));
+                    }
                     DisplayEditedNumber();
                 }
             }
@@ -196,6 +199,10 @@ namespace multiBaseCalc
             if (editedNumber.Length == 0)
             {
                 view.SetNumber("0");
+            }
+            else if (editedNumber[0] == '.')
+            {
+                view.SetNumber("0" + editedNumber.ToString());
             }
             else
             {
