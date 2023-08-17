@@ -11,6 +11,8 @@ namespace multiBaseCalc
     {
         private IView view = null;
 
+        private int maxNumberOfDigits;
+
         private int @base = 10;
 
         private StringBuilder editedNumber = new StringBuilder();
@@ -19,6 +21,11 @@ namespace multiBaseCalc
         private double secondNumber = 0.0;
  
         private CalculationState state = CalculationState.Result;
+
+        public Model(int maxNumberOfDigits = 8)
+        {
+            this.maxNumberOfDigits = maxNumberOfDigits;
+        }
 
         public void SetView(IView view)
         {
