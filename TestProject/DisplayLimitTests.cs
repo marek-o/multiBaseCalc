@@ -233,5 +233,28 @@ namespace TestProject
             view.PressKey("+0.1="); //10000000.8 base 16
             Assert.AreEqual("10000001", view.numberText);
         }
+
+        [Test]
+        public void BaseConversion_RoundingBase9()
+        {
+            view.PressKey("[");
+            view.PressKey("4444.4444="); //4444.44440000... base 9
+            Assert.AreEqual("4444.4444", view.numberText);
+
+            view.PressKey("+0.00004="); //4444.44444000... base 9
+            Assert.AreEqual("4444.4444", view.numberText);
+
+            //note: 1/2 == 0.444... in base 9. So to detect midpoint for rounding,
+            //one needs to check if remaining digits
+            //are greater than or equal to "444..."
+            view.PressKey("+0.00001="); //4444.44445000... base 9
+            Assert.AreEqual("4444.4445", view.numberText);
+
+            view.PressKey("-0.00001=+0.000004="); //4444.44444400... base 9
+            Assert.AreEqual("4444.4444", view.numberText);
+
+            view.PressKey("+0.000001="); //4444.44444500... base 9
+            Assert.AreEqual("4444.4445", view.numberText);
+        }
     }
 }
