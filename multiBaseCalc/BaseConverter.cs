@@ -159,7 +159,7 @@ namespace multiBaseCalc
             return output.ToString();
         }
 
-        public static string DoubleToString(double i, int @base)
+        public static string DoubleToString(double i, int @base, int maxDigitCount)
         {
             if (i == double.PositiveInfinity) return "[+inf]";
             if (i == double.NegativeInfinity) return "[-inf]";
@@ -180,11 +180,37 @@ namespace multiBaseCalc
             var sb = new StringBuilder();
             sb.AppendFormat("{0}{1}", minus, strWhole);
 
+            bool hasDecimalPoint = false;
             if (!strFrac.Equals("0"))
             {
+                hasDecimalPoint = true;
                 sb.AppendFormat(".{0}", strFrac);
             }
-            return sb.ToString();
+
+            int digitCount = sb.Length;
+            digitCount -= negative ? 1 : 0;
+            digitCount -= hasDecimalPoint ? 1 : 0;
+
+            if (digitCount <= maxDigitCount)
+            {
+                //no rounding needed
+                return sb.ToString();
+            }
+
+            if (strWhole.Length <= maxDigitCount)
+            {
+                //FIXME what about rounding 99999999.999, after rounding length increases!
+
+                //rounding needed
+                //FIXME just truncating for now
+                var strFracTruncated = strFrac.Substring(0, maxDigitCount - strWhole.Length);
+                sb.Clear();
+                sb.AppendFormat("{0}{1}.{2}", minus, strWhole, strFracTruncated);
+                return sb.ToString().TrimEnd('0').TrimEnd('.');
+            }
+
+            //overflow, cannot round to reduce
+            return new string('#', maxDigitCount);
         }
     }
 }

@@ -198,7 +198,7 @@ namespace multiBaseCalc
 
         private void DisplayResult()
         {
-            view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base));
+            view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
         }
 
         private void DisplayEditedNumber()

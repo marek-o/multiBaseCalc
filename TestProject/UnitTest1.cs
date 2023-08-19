@@ -82,7 +82,7 @@ namespace TestProject
         [TestCase("[NaN]", double.NaN)]
         public void TestDoubleToStringBase10(string expected, double input)
         {
-            Assert.AreEqual(expected, BaseConverter.DoubleToString(input, 10));
+            Assert.AreEqual(expected, BaseConverter.DoubleToString(input, 10, 50));
         }
 
         [TestCase("", 0.0)]
