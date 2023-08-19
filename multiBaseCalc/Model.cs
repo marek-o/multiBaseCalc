@@ -74,7 +74,21 @@ namespace multiBaseCalc
                         state = CalculationState.EnteringSecond;
                     }
 
-                    if (k != '0' || editedNumber.Length > 0)
+                    string editedNumberStr = editedNumber.ToString();
+                    int editedDigitCount = editedNumberStr.Length;
+                    if (editedNumberStr.Contains('.')) //FIXME DRY
+                    {
+                        editedDigitCount--;
+
+                        if (editedNumberStr.StartsWith('.'))
+                        {
+                            //add implied "0"
+                            editedDigitCount++;
+                        }
+                    }
+
+                    if ((k != '0' || editedNumber.Length > 0)
+                        && editedDigitCount < maxNumberOfDigits)
                     {
                         editedNumber.Append(char.ToLower(k));
                     }
