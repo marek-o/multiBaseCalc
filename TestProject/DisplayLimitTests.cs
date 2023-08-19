@@ -206,5 +206,32 @@ namespace TestProject
             view.PressKey(Keys.Back);
             Assert.AreEqual("123.4567", view.numberText);
         }
+
+        [Test]
+        public void BaseConversion_10And2()
+        {
+            view.PressKey("255");
+            Assert.AreEqual("255", view.numberText);
+
+            view.PressKey("[[[[[[[[");
+            Assert.AreEqual("11111111", view.numberText);
+
+            view.PressKey("+1="); //100000000 base 2
+            Assert.AreEqual("########", view.numberText);
+
+            view.PressKey("]]]]]]]]");
+            Assert.AreEqual("256", view.numberText);
+        }
+
+        [Test]
+        public void BaseConversion_RoundingBase16()
+        {
+            view.PressKey("]]]]]]");
+            view.PressKey("fffffff.f+0.8="); //10000000.7 base 16
+            Assert.AreEqual("10000000", view.numberText);
+
+            view.PressKey("+0.1="); //10000000.8 base 16
+            Assert.AreEqual("10000001", view.numberText);
+        }
     }
 }
