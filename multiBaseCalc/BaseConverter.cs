@@ -204,9 +204,49 @@ namespace multiBaseCalc
                 //rounding needed
                 var strFracTruncated = strFrac.Substring(0, maxDigitCount - strWhole.Length);
                 var strFracRest = strFrac.Substring(maxDigitCount - strWhole.Length);
-                var firstRestDigit = CharToInt(strFracRest[0], @base); //FIXME check if exists
 
-                if (firstRestDigit >= @base / 2) //FIXME negative //FIXME odd bases
+                //checking midpoint
+                //base 12: 6000...
+                //base 11: 5555...
+                //base 10: 5000...
+                //base 9:  4444...
+                //base 8:  4000...
+                //base 7:  3333...
+                int midpointFirstDigit = @base / 2;
+                int midpointNextDigits = (@base % 2 == 1) ? midpointFirstDigit : 0;
+                
+                //base 10: 5000(000...) (should increment)
+                //base 9:  4444(000...) (should not increment)
+                bool shouldIncrementOnMidpoint = (@base % 2 == 0);
+
+                bool? shouldIncrement = null;
+
+                if (strFracRest.Length == 0) //(000...)
+                {
+                    shouldIncrement = false;
+                }
+                
+                for (int j = 0; j < strFracRest.Length; ++j)
+                {
+                    var digit = CharToInt(strFracRest[j], @base);
+                    var midpointDigit = (j == 0) ? midpointFirstDigit : midpointNextDigits;
+                    
+                    if (digit < midpointDigit)
+                    {
+                        shouldIncrement = false;
+                        break;
+                    }
+                    
+                    if (digit > midpointDigit)
+                    {
+                        shouldIncrement = true;
+                        break;
+                    }
+                }
+
+                shouldIncrement ??= shouldIncrementOnMidpoint;
+
+                if (shouldIncrement.Value) //FIXME negative
                 {
                     //increment
                     //incrementing done by hand to avoid floating point errors

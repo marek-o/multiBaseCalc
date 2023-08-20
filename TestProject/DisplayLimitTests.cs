@@ -82,23 +82,32 @@ namespace TestProject
         [Test]
         public void Rounding()
         {
-            view.PressKey("9999999.9+0.5="); //10000000.4
+            view.PressKey("9999999.9+0.59="); //10000000.49
             Assert.AreEqual("10000000", view.numberText);
 
-            view.PressKey("+0.1="); //10000000.5
+            view.PressKey("+0.01="); //10000000.50
+            Assert.AreEqual("10000001", view.numberText);
+
+            view.PressKey("+0.01="); //10000000.51
+            Assert.AreEqual("10000001", view.numberText);
+
+            view.PressKey("+0.09="); //10000000.60
             Assert.AreEqual("10000001", view.numberText);
         }
 
         [Test]
         public void Rounding_Negative()
         {
-            view.PressKey("-9999999.9-0.5="); //-10000000.4
+            view.PressKey("-9999999.9-0.59="); //-10000000.49
             Assert.AreEqual("-10000000", view.numberText);
 
-            view.PressKey("-0.1="); //-10000000.5
+            view.PressKey("-0.01="); //-10000000.50
             Assert.AreEqual("-10000000", view.numberText);
 
-            view.PressKey("-0.1="); //-10000000.6
+            view.PressKey("-0.01="); //-10000000.51
+            Assert.AreEqual("-10000001", view.numberText);
+
+            view.PressKey("-0.09="); //-10000000.60
             Assert.AreEqual("-10000001", view.numberText);
         }
 
@@ -227,10 +236,16 @@ namespace TestProject
         public void BaseConversion_RoundingBase16()
         {
             view.PressKey("]]]]]]");
-            view.PressKey("fffffff.f+0.8="); //10000000.7 base 16
+            view.PressKey("fffffff.f+0.8f="); //10000000.7f base 16
             Assert.AreEqual("10000000", view.numberText);
 
-            view.PressKey("+0.1="); //10000000.8 base 16
+            view.PressKey("+0.01="); //10000000.80 base 16
+            Assert.AreEqual("10000001", view.numberText);
+
+            view.PressKey("+0.01="); //10000000.81 base 16
+            Assert.AreEqual("10000001", view.numberText);
+
+            view.PressKey("+0.0f="); //10000000.90 base 16
             Assert.AreEqual("10000001", view.numberText);
         }
 
@@ -255,6 +270,9 @@ namespace TestProject
 
             view.PressKey("+0.000001="); //4444.44444500... base 9
             Assert.AreEqual("4444.4445", view.numberText);
+
+            view.PressKey("1/2="); //0.444... base 9
+            Assert.AreEqual("0.4444444", view.numberText);
         }
     }
 }
