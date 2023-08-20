@@ -202,8 +202,23 @@ namespace multiBaseCalc
                 //FIXME what about rounding 99999999.999, after rounding length increases!
 
                 //rounding needed
-                //FIXME just truncating for now
                 var strFracTruncated = strFrac.Substring(0, maxDigitCount - strWhole.Length);
+                var strFracRest = strFrac.Substring(maxDigitCount - strWhole.Length);
+                var firstRestDigit = CharToInt(strFracRest[0], @base); //FIXME check if exists
+
+                if (firstRestDigit >= @base / 2) //FIXME negative //FIXME odd bases
+                {
+                    //increment
+                    //incrementing done by hand to avoid floating point errors
+
+                    strFracTruncated = IncrementString(strFracTruncated, @base, out var stringWasResized);
+                    if (stringWasResized)
+                    {
+                        strFracTruncated = strFracTruncated.Substring(1);
+                        strWhole = IncrementString(strWhole, @base, out _);
+                    }
+                }
+
                 sb.Clear();
                 sb.AppendFormat("{0}{1}.{2}", minus, strWhole, strFracTruncated);
                 return sb.ToString().TrimEnd('0').TrimEnd('.');
@@ -211,6 +226,30 @@ namespace multiBaseCalc
 
             //overflow, cannot round to reduce
             return new string('#', maxDigitCount);
+        }
+
+        private static string IncrementString(string i, int @base, out bool stringWasResized)
+        {
+            var sb = new StringBuilder(i);
+            stringWasResized = false;
+
+            int carry = 1;
+            for (int j = sb.Length - 1; j >= 0; j--)
+            {
+                var digit = CharToInt(sb[j], @base) + carry;
+                var strDigit = IntToString(digit, @base);
+
+                carry = (strDigit.Length > 1) ? 1 : 0;
+                sb[j] = strDigit[strDigit.Length - 1];
+            }
+
+            if (carry > 0)
+            {
+                sb.Insert(0, '1');
+                stringWasResized = true;
+            }
+
+            return sb.ToString();
         }
     }
 }
