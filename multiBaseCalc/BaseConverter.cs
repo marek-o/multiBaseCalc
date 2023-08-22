@@ -214,10 +214,11 @@ namespace multiBaseCalc
                 //base 7:  3333...
                 int midpointFirstDigit = @base / 2;
                 int midpointNextDigits = (@base % 2 == 1) ? midpointFirstDigit : 0;
-                
-                //base 10: 5000(000...) (should increment)
-                //base 9:  4444(000...) (should not increment)
+
+                //base 10: 5000(000...) (increment positive, don't increment negative)
+                //base 9:  4444(000...) (don't increment positive, don't increment negative)
                 bool shouldIncrementOnMidpoint = (@base % 2 == 0);
+                if (negative) shouldIncrementOnMidpoint = false;
 
                 bool? shouldIncrement = null;
 
@@ -246,7 +247,7 @@ namespace multiBaseCalc
 
                 shouldIncrement ??= shouldIncrementOnMidpoint;
 
-                if (shouldIncrement.Value) //FIXME negative
+                if (shouldIncrement.Value)
                 {
                     //increment
                     //incrementing done by hand to avoid floating point errors

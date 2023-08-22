@@ -274,5 +274,29 @@ namespace TestProject
             view.PressKey("1/2="); //0.444... base 9
             Assert.AreEqual("0.4444444", view.numberText);
         }
+
+        [Test]
+        public void BaseConversion_RoundingBase9_Negative()
+        {
+            view.PressKey("[");
+            view.PressKey("-4444.4444="); //-4444.44440000... base 9
+            Assert.AreEqual("-4444.4444", view.numberText);
+
+            view.PressKey("-0.00004="); //-4444.44444000... base 9
+            Assert.AreEqual("-4444.4444", view.numberText);
+
+            view.PressKey("-0.00001="); //-4444.44445000... base 9
+            Assert.AreEqual("-4444.4445", view.numberText);
+
+            view.PressKey("+0.00001=-0.000004="); //-4444.44444400... base 9
+            Assert.AreEqual("-4444.4444", view.numberText);
+
+            view.PressKey("-0.000001="); //-4444.44444500... base 9
+            Assert.AreEqual("-4444.4445", view.numberText);
+
+            view.PressKey(Keys.Escape);
+            view.PressKey("-1/2="); //-0.444... base 9 (but assuming finite fraction ...444(000))
+            Assert.AreEqual("-0.4444444", view.numberText);
+        }
     }
 }
