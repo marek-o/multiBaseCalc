@@ -140,7 +140,7 @@ namespace TestProject
         [TestCase("c.4", 12.25)]
         [TestCase("-f.fa", -15.9765625)]
 
-        [TestCase("3.243F6A89", 3.14159265346825122833251953125)]
+        [TestCase("3.243F6A8822E87C", 3.1415926535)]
         [TestCase("0.001", 0.000244140625)]
         public void TestBase16(string s, double expected)
         {
