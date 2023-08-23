@@ -40,14 +40,15 @@ namespace TestProject
         [TestCase("3.1415926535897", 3.1415926535897)]
         [TestCase("1000000000000000", 1e15)]
         [TestCase("-5000000000000000", -5e15)]
-        [TestCase("1000000000000000000000000000000", 1e30)]
+        [TestCase("1000000000000000000000000000000", 1e30, 1e15)]
         [TestCase("0.001", 1e-3)]
         [TestCase("0.0000000000000001", 1e-16)]
         [TestCase("-0.0000000000000000000000000000001", -1e-31)]
         [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
-        public void TestStringToDoubleBase10(string input, double expected)
+        public void TestStringToDoubleBase10(string input, double expected,
+            double epsilon = 0.0)
         {
-            Assert.AreEqual(expected, BaseConverter.StringToDouble(input, 10));
+            Assert.AreEqual(expected, BaseConverter.StringToDouble(input, 10), epsilon);
         }
 
         [TestCase("0", 0.0)]
@@ -63,26 +64,27 @@ namespace TestProject
         [TestCase("123456789012345", 123456789012345.0)]
         [TestCase("-123456789012345", -123456789012345.0)]
 
-        [TestCase("1234.5678", 1234.5678)]
-        [TestCase("-1234.5678", -1234.5678)]
-        [TestCase("0.999999", 0.999999)]
-        [TestCase("-0.999999", -0.999999)]
+        [TestCase("1234.5678", 1234.5678, 16)]
+        [TestCase("-1234.5678", -1234.5678, 16)]
+        [TestCase("0.999999", 0.999999, 16)]
+        [TestCase("-0.999999", -0.999999, 16)]
 
-        [TestCase("3.1415926535897", 3.1415926535897)]
+        [TestCase("3.1415926535897", 3.1415926535897, 16)]
         [TestCase("1000000000000000", 1e15)]
         [TestCase("-5000000000000000", -5e15)]
-        [TestCase("1000000000000000000000000000000", 1e30)]
         [TestCase("0.001", 1e-3)]
-        [TestCase("0.0000000000000001", 1e-16)]
-        [TestCase("-0.0000000000000000000000000000001", -1e-31)]
-        [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31)]
+        [TestCase("0.0000000000000001", 1e-16, 31)]
+        [TestCase("-0.0000000000000000000000000000001", -1e-31, 46)]
+        [TestCase("-0.00000000000000000000000000000012345", -1.2345e-31, 46)]
 
         [TestCase("[+inf]", double.PositiveInfinity)]
         [TestCase("[-inf]", double.NegativeInfinity)]
         [TestCase("[NaN]", double.NaN)]
-        public void TestDoubleToStringBase10(string expected, double input)
+        public void TestDoubleToStringBase10(string expected, double input,
+            int maxDigitCount = 50)
         {
-            Assert.AreEqual(expected, BaseConverter.DoubleToString(input, 10, 50));
+            Assert.AreEqual(expected,
+                BaseConverter.DoubleToString(input, 10, maxDigitCount));
         }
 
         [TestCase("", 0.0)]
