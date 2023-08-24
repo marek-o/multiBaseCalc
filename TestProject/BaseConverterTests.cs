@@ -3,7 +3,7 @@ using multiBaseCalc;
 
 namespace TestProject
 {
-    public class Tests
+    public class BaseConverterTests
     {
         [SetUp]
         public void Setup()
@@ -122,7 +122,7 @@ namespace TestProject
         [TestCase("0.0000000000000001", 0.0000152587890625)]
         [TestCase("-0.0000000000000000000000000000001", -0.0000000004656612873077392578125)]
         [TestCase("-0.000000000000000000000000000000101", -5.82076609134674072265625e-10)]
-        public void TestBase2(string s, double expected)
+        public void TestStringToDoubleBase2(string s, double expected)
         {
             Assert.AreEqual(expected, BaseConverter.StringToDouble(s, 2));
         }
@@ -142,7 +142,7 @@ namespace TestProject
 
         [TestCase("3.243F6A8822E87C", 3.1415926535)]
         [TestCase("0.001", 0.000244140625)]
-        public void TestBase16(string s, double expected)
+        public void TestStringToDoubleBase16(string s, double expected)
         {
             Assert.AreEqual(expected, BaseConverter.StringToDouble(s, 16));
         }

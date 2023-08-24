@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace TestProject
 {
-    public class BaseConversionTests
+    public class BaseConversionCalculationTests
     {
         private Model model;
         private ViewMock view;
