@@ -39,7 +39,7 @@ namespace TestProject
             view.PressKey("2");
             Assert.AreEqual("2", view.numberText);
 
-            view.PressKey(Keys.Enter);
+            view.PressKey(Key.Equals);
             Assert.AreEqual("3", view.numberText);
         }
 
@@ -95,26 +95,26 @@ namespace TestProject
         {
             view.PressKey("123");
             Assert.AreEqual("123", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("12", view.numberText);
             view.PressKey("4");
             Assert.AreEqual("124", view.numberText);
             view.PressKey(".567");
             Assert.AreEqual("124.567", view.numberText);
-            view.PressKey(Keys.Back);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("124.5", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("124.", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("124", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("12", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("1", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("0", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("0", view.numberText);
         }
 
@@ -125,9 +125,9 @@ namespace TestProject
             Assert.AreEqual("123", view.numberText);
             view.PressKey("4");
             Assert.AreEqual("4", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("0", view.numberText);
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("0", view.numberText);
             view.PressKey("55");
             Assert.AreEqual("55", view.numberText);
@@ -250,12 +250,12 @@ namespace TestProject
             view.PressKey("123+333=");
             Assert.AreEqual("456", view.numberText);
 
-            view.PressKey(Keys.Escape);
+            view.PressKey(Key.Escape);
             Assert.AreEqual("0", view.numberText);
             view.PressKey("111=");
             Assert.AreEqual("111", view.numberText);
 
-            view.PressKey(Keys.Escape);
+            view.PressKey(Key.Escape);
             Assert.AreEqual("0", view.numberText);
             view.PressKey("+444=");
             Assert.AreEqual("444", view.numberText);

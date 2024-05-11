@@ -49,6 +49,16 @@ namespace multiBaseCalc
             return -1;
         }
 
+        public static char KeyToChar(Key k, int @base)
+        {
+            if ((int)k >= 0 && (int)k < @base)
+            {
+                return digits[(int)k];
+            }
+
+            return '\0';
+        }
+
         private static double StringToInt(string s, int @base)
         {
             if (s.Length == 0)

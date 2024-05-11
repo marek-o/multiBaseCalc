@@ -1,21 +1,25 @@
 ﻿using multiBaseCalc;
 using System;
-using System.Windows.Forms;
 
 namespace TestProject
 {
     public class ViewMock : IView
     {
-        public event Action<char> KeyPressed = delegate { };
+        public event Action<Key> KeyPressed = delegate { };
 
-        public void PressKey(char key)
+        public void PressKey(char ch)
         {
+            if (!Form1.KeyTranslation.TryGetValue(ch, out Key key))
+            {
+                throw new ArgumentException(string.Format("character not recognized: {0}", ch));
+            }
+
             KeyPressed(key);
         }
-        
-        public void PressKey(Keys key)
+
+        public void PressKey(Key key)
         {
-            KeyPressed((char)key);
+            KeyPressed(key);
         }
 
         public void PressKey(string keys)

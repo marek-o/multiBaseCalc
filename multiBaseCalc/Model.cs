@@ -16,7 +16,7 @@ namespace multiBaseCalc
         private int @base = 10;
 
         private StringBuilder editedNumber = new StringBuilder();
-        private char operation = '+';
+        private Key operation = Key.Add;
         private double firstNumber = 0.0; //or result
         private double secondNumber = 0.0;
  
@@ -41,9 +41,9 @@ namespace multiBaseCalc
             UpdateBaseLabel();
         }
 
-        private void View_KeyPressed(char k)
+        private void View_KeyPressed(Key k)
         {
-            if ((k == '[' || k == ']')
+            if ((k == Key.DecrementBase || k == Key.IncrementBase)
                 &&
                   (state == CalculationState.Result
                 || state == CalculationState.EnteringFirst))
@@ -54,16 +54,17 @@ namespace multiBaseCalc
                     state = CalculationState.Result;
                 }
 
-                int dir = k == ']' ? 1 : -1;
+                int dir = k == Key.IncrementBase ? 1 : -1;
                 @base = Math.Max(2, Math.Min(36, @base + dir));
                 UpdateBaseLabel();
 
                 DisplayResult();
             }
 
-            if (k >= '0' && k <= '9' || k >= 'a' && k <= 'z' || k >= 'A' && k <= 'Z')
+            if (k >= Key.D0 && k <= Key.Z)
             {
-                if (BaseConverter.CharToInt(k, @base) >= 0)
+                char ch = BaseConverter.KeyToChar(k, @base);
+                if (ch != '\0')
                 {
                     if (state == CalculationState.Result)
                     {
@@ -87,16 +88,16 @@ namespace multiBaseCalc
                         }
                     }
 
-                    if ((k != '0' || editedNumber.Length > 0)
+                    if ((k != Key.D0 || editedNumber.Length > 0)
                         && editedDigitCount < maxNumberOfDigits)
                     {
-                        editedNumber.Append(char.ToLower(k));
+                        editedNumber.Append(ch);
                     }
                     DisplayEditedNumber();
                 }
             }
 
-            if (k == '.' || k == ',')
+            if (k == Key.Period)
             {
                 if (!editedNumber.ToString().Any(i => i == '.' || i == ','))
                 {
@@ -114,7 +115,7 @@ namespace multiBaseCalc
                 }
             }
 
-            if (k == (int)Keys.Escape)
+            if (k == Key.Escape)
             {
                 editedNumber.Clear();
                 DisplayEditedNumber();
@@ -122,12 +123,12 @@ namespace multiBaseCalc
                 firstNumber = 0.0;
                 secondNumber = 0.0;
 
-                operation = '+';
+                operation = Key.Add;
 
                 state = CalculationState.Result;
             }
 
-            if (k == (int)Keys.Back)
+            if (k == Key.Backspace)
             {
                 if (state == CalculationState.EnteringFirst
                     || state == CalculationState.EnteringSecond)
@@ -140,7 +141,7 @@ namespace multiBaseCalc
                 }
             }
 
-            if (k == '*' || k == '/' || k == '+' || k == '-')
+            if (k == Key.Add || k == Key.Subtract || k == Key.Multiply || k == Key.Divide)
             {
                 if (state == CalculationState.EnteringFirst)
                 {
@@ -158,7 +159,7 @@ namespace multiBaseCalc
                 operation = k;
             }
 
-            if (k == '!' || k == '@' || "!@#$".Contains(k))
+            if (k == Key.Sqrt || k == Key.PiConstant || k == Key.EConstant || k == Key.Cos)
             {
                 if (state == CalculationState.EnteringFirst)
                 {
@@ -177,7 +178,7 @@ namespace multiBaseCalc
                 state = CalculationState.Result;
             }
 
-            if (k == '=' || k == (int)Keys.Enter)
+            if (k == Key.Equals)
             {
                 if (state == CalculationState.Result)
                 {
@@ -219,16 +220,16 @@ namespace multiBaseCalc
             return res;
         }
 
-        private double PerformOperation(char operation, double lhs, double rhs)
+        private double PerformOperation(Key operation, double lhs, double rhs)
         {
-            if (operation == '+') return lhs + rhs;
-            if (operation == '-') return lhs - rhs;
-            if (operation == '*') return lhs * rhs;
-            if (operation == '/') return lhs / rhs;
-            if (operation == '!') return Math.Sqrt(lhs);
-            if (operation == '@') return Math.PI;
-            if (operation == '#') return Math.E;
-            if (operation == '$') return Math.Cos(lhs);
+            if (operation == Key.Add) return lhs + rhs;
+            if (operation == Key.Subtract) return lhs - rhs;
+            if (operation == Key.Multiply) return lhs * rhs;
+            if (operation == Key.Divide) return lhs / rhs;
+            if (operation == Key.Sqrt) return Math.Sqrt(lhs);
+            if (operation == Key.PiConstant) return Math.PI;
+            if (operation == Key.EConstant) return Math.E;
+            if (operation == Key.Cos) return Math.Cos(lhs);
 
             throw new ArgumentException("invalid operation");
         } 

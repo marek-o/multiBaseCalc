@@ -199,7 +199,7 @@ namespace TestProject
             view.PressKey("9");
             Assert.AreEqual("12345678", view.numberText);
 
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("1234567", view.numberText);
         }
 
@@ -212,7 +212,7 @@ namespace TestProject
             view.PressKey("9");
             Assert.AreEqual("123.45678", view.numberText);
 
-            view.PressKey(Keys.Back);
+            view.PressKey(Key.Backspace);
             Assert.AreEqual("123.4567", view.numberText);
         }
 
@@ -294,7 +294,7 @@ namespace TestProject
             view.PressKey("-0.000001="); //-4444.44444500... base 9
             Assert.AreEqual("-4444.4445", view.numberText);
 
-            view.PressKey(Keys.Escape);
+            view.PressKey(Key.Escape);
             view.PressKey("-1/2="); //-0.444... base 9 (but assuming finite fraction ...444(000))
             Assert.AreEqual("-0.4444444", view.numberText);
         }
