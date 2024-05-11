@@ -1,7 +1,6 @@
 ﻿using multiBaseCalc;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace TestProject
 {
@@ -9,7 +8,7 @@ namespace TestProject
     {
         public event Action<Key> KeyPressed = delegate { };
 
-        public Dictionary<char, Key> KeyTranslation = new Dictionary<char, Key>(
+        public Dictionary<char, Key> CharToKey = new Dictionary<char, Key>(
             new KeyValuePair<char, Key>[]{
                 new KeyValuePair<char, Key>('0', Key.D0),
                 new KeyValuePair<char, Key>('1', Key.D1),
@@ -49,26 +48,17 @@ namespace TestProject
                 new KeyValuePair<char, Key>('z', Key.Z),
                 new KeyValuePair<char, Key>(',', Key.Period),
                 new KeyValuePair<char, Key>('.', Key.Period),
-                new KeyValuePair<char, Key>((char)Keys.Back, Key.Backspace),
-                new KeyValuePair<char, Key>((char)Keys.Escape, Key.Escape),
                 new KeyValuePair<char, Key>('=', Key.Equals),
-                new KeyValuePair<char, Key>((char)Keys.Enter, Key.Equals),
-                new KeyValuePair<char, Key>('[', Key.DecrementBase),
-                new KeyValuePair<char, Key>(']', Key.IncrementBase),
                 new KeyValuePair<char, Key>('+', Key.Add),
                 new KeyValuePair<char, Key>('-', Key.Subtract),
                 new KeyValuePair<char, Key>('*', Key.Multiply),
                 new KeyValuePair<char, Key>('/', Key.Divide),
-                new KeyValuePair<char, Key>('!', Key.Sqrt),
-                new KeyValuePair<char, Key>('@', Key.PiConstant),
-                new KeyValuePair<char, Key>('#', Key.EConstant),
-                new KeyValuePair<char, Key>('$', Key.Cos),
             }
             );
 
         public void PressKey(char ch)
         {
-            if (!KeyTranslation.TryGetValue(ch, out Key key))
+            if (!CharToKey.TryGetValue(ch, out Key key))
             {
                 throw new ArgumentException(string.Format("character not recognized: {0}", ch));
             }

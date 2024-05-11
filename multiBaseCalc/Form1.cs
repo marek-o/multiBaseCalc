@@ -43,13 +43,13 @@ namespace multiBaseCalc
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (KeyTranslation.TryGetValue(e.KeyData, out Key key))
+            if (InputKeyToKey.TryGetValue(e.KeyData, out Key key))
             {
                 KeyPressed(key);
             }
         }
 
-        public static Dictionary<Keys, Key> KeyTranslation = new Dictionary<Keys, Key>(
+        public static Dictionary<Keys, Key> InputKeyToKey = new Dictionary<Keys, Key>(
             new KeyValuePair<Keys, Key>[]{
                 new KeyValuePair<Keys, Key>(Keys.D0, Key.D0),
                 new KeyValuePair<Keys, Key>(Keys.D1, Key.D1),
