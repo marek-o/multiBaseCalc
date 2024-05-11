@@ -70,7 +70,7 @@ namespace multiBaseCalc
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(530, 292);
+            ClientSize = new System.Drawing.Size(530, 400);
             Controls.Add(button1);
             Controls.Add(labelBase);
             Controls.Add(label1);

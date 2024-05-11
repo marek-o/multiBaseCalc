@@ -19,9 +19,46 @@ namespace multiBaseCalc
 
     public partial class Form1 : Form, IView
     {
+        private float relativeDpi = 1.0f;
+        private int Scale(int x)
+        {
+            return (int)(x * relativeDpi);
+        }
+
+        private List<CalculatorButton> buttons = new List<CalculatorButton>();
+
         public Form1()
         {
             InitializeComponent();
+
+            relativeDpi = DeviceDpi / 96.0f;
+
+            buttons.Add(new CalculatorButton(0, 0, Key.D7, "7"));
+            buttons.Add(new CalculatorButton(1, 0, Key.D8, "8"));
+            buttons.Add(new CalculatorButton(2, 0, Key.D9, "9"));
+            buttons.Add(new CalculatorButton(0, 1, Key.D4, "4"));
+            buttons.Add(new CalculatorButton(1, 1, Key.D5, "5"));
+            buttons.Add(new CalculatorButton(2, 1, Key.D6, "6"));
+            buttons.Add(new CalculatorButton(0, 2, Key.D1, "1"));
+            buttons.Add(new CalculatorButton(1, 2, Key.D2, "2"));
+            buttons.Add(new CalculatorButton(2, 2, Key.D3, "3"));
+            buttons.Add(new CalculatorButton(0, 3, Key.D0, "0"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Period, "."));
+            buttons.Add(new CalculatorButton(2, 3, Key.Equals, "="));
+
+            foreach (var i in buttons)
+            {
+                i.Button = new Button();
+                i.Button.Location = new Point(Scale(i.X * 60 + 10), Scale(i.Y * 60 + 200));
+                i.Button.Size = new Size(Scale(50), Scale(50));
+                i.Button.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+
+                i.Button.Text = i.Text;
+                i.Button.KeyDown += Form1_KeyDown;
+                i.Button.Click += (object sender, EventArgs args) => { KeyPressed(i.Key); };
+
+                Controls.Add(i.Button);
+            }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
