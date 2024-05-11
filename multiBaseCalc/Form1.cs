@@ -46,12 +46,24 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(1, 3, Key.Period, "."));
             buttons.Add(new CalculatorButton(2, 3, Key.Equals, "="));
 
+            buttons.Add(new CalculatorButton(3, 0, Key.Divide, "/"));
+            buttons.Add(new CalculatorButton(3, 1, Key.Multiply, "*"));
+            buttons.Add(new CalculatorButton(3, 2, Key.Subtract, "-"));
+            buttons.Add(new CalculatorButton(3, 3, Key.Add, "+"));
+
+            buttons.Add(new CalculatorButton(2, -2, Key.Escape, "C"));
+            buttons.Add(new CalculatorButton(3, -2, Key.Backspace, "⌫"));
+
+            buttons.Add(new CalculatorButton(2, -1, Key.DecrementBase, "base↓"));
+            buttons.Add(new CalculatorButton(3, -1, Key.IncrementBase, "base↑"));
+
             foreach (var i in buttons)
             {
-                i.Button = new Button();
+                i.Button = new ButtonNoEnter();
                 i.Button.Location = new Point(Scale(i.X * 60 + 10), Scale(i.Y * 60 + 200));
                 i.Button.Size = new Size(Scale(50), Scale(50));
-                i.Button.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+                float fontSize = i.Text.Length == 1 ? 20f : 10f;
+                i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);
 
                 i.Button.Text = i.Text;
                 i.Button.KeyDown += Form1_KeyDown;
@@ -59,11 +71,6 @@ namespace multiBaseCalc
 
                 Controls.Add(i.Button);
             }
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            base.OnKeyDown(e);
         }
 
         public void SetNumber(string s)
@@ -142,10 +149,5 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D4, Key.Cos),
             }
             );
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            KeyPressed(Key.Add);
-        }
     }
 }
