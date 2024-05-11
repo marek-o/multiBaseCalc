@@ -43,73 +43,72 @@ namespace multiBaseCalc
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-        }
-
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            char k = e.KeyChar;
-
-            if (KeyTranslation.TryGetValue(k, out Key key))
+            if (KeyTranslation.TryGetValue(e.KeyData, out Key key))
             {
                 KeyPressed(key);
             }
         }
 
-        public static Dictionary<char, Key> KeyTranslation = new Dictionary<char, Key>(
-            new KeyValuePair<char, Key>[]{
-                new KeyValuePair<char, Key>('0', Key.D0),
-                new KeyValuePair<char, Key>('1', Key.D1),
-                new KeyValuePair<char, Key>('2', Key.D2),
-                new KeyValuePair<char, Key>('3', Key.D3),
-                new KeyValuePair<char, Key>('4', Key.D4),
-                new KeyValuePair<char, Key>('5', Key.D5),
-                new KeyValuePair<char, Key>('6', Key.D6),
-                new KeyValuePair<char, Key>('7', Key.D7),
-                new KeyValuePair<char, Key>('8', Key.D8),
-                new KeyValuePair<char, Key>('9', Key.D9),
-                new KeyValuePair<char, Key>('a', Key.A),
-                new KeyValuePair<char, Key>('b', Key.B),
-                new KeyValuePair<char, Key>('c', Key.C),
-                new KeyValuePair<char, Key>('d', Key.D),
-                new KeyValuePair<char, Key>('e', Key.E),
-                new KeyValuePair<char, Key>('f', Key.F),
-                new KeyValuePair<char, Key>('g', Key.G),
-                new KeyValuePair<char, Key>('h', Key.H),
-                new KeyValuePair<char, Key>('i', Key.I),
-                new KeyValuePair<char, Key>('j', Key.J),
-                new KeyValuePair<char, Key>('k', Key.K),
-                new KeyValuePair<char, Key>('l', Key.L),
-                new KeyValuePair<char, Key>('m', Key.M),
-                new KeyValuePair<char, Key>('n', Key.N),
-                new KeyValuePair<char, Key>('o', Key.O),
-                new KeyValuePair<char, Key>('p', Key.P),
-                new KeyValuePair<char, Key>('q', Key.Q),
-                new KeyValuePair<char, Key>('r', Key.R),
-                new KeyValuePair<char, Key>('s', Key.S),
-                new KeyValuePair<char, Key>('t', Key.T),
-                new KeyValuePair<char, Key>('u', Key.U),
-                new KeyValuePair<char, Key>('v', Key.V),
-                new KeyValuePair<char, Key>('w', Key.W),
-                new KeyValuePair<char, Key>('x', Key.X),
-                new KeyValuePair<char, Key>('y', Key.Y),
-                new KeyValuePair<char, Key>('z', Key.Z),
-                new KeyValuePair<char, Key>(',', Key.Period),
-                new KeyValuePair<char, Key>('.', Key.Period),
-                new KeyValuePair<char, Key>((char)Keys.Back, Key.Backspace),
-                new KeyValuePair<char, Key>((char)Keys.Escape, Key.Escape),
-                new KeyValuePair<char, Key>('=', Key.Equals),
-                new KeyValuePair<char, Key>((char)Keys.Enter, Key.Equals),
-                new KeyValuePair<char, Key>('[', Key.DecrementBase),
-                new KeyValuePair<char, Key>(']', Key.IncrementBase),
-                new KeyValuePair<char, Key>('+', Key.Add),
-                new KeyValuePair<char, Key>('-', Key.Subtract),
-                new KeyValuePair<char, Key>('*', Key.Multiply),
-                new KeyValuePair<char, Key>('/', Key.Divide),
-                new KeyValuePair<char, Key>('!', Key.Sqrt),
-                new KeyValuePair<char, Key>('@', Key.PiConstant),
-                new KeyValuePair<char, Key>('#', Key.EConstant),
-                new KeyValuePair<char, Key>('$', Key.Cos),
+        public static Dictionary<Keys, Key> KeyTranslation = new Dictionary<Keys, Key>(
+            new KeyValuePair<Keys, Key>[]{
+                new KeyValuePair<Keys, Key>(Keys.D0, Key.D0),
+                new KeyValuePair<Keys, Key>(Keys.D1, Key.D1),
+                new KeyValuePair<Keys, Key>(Keys.D2, Key.D2),
+                new KeyValuePair<Keys, Key>(Keys.D3, Key.D3),
+                new KeyValuePair<Keys, Key>(Keys.D4, Key.D4),
+                new KeyValuePair<Keys, Key>(Keys.D5, Key.D5),
+                new KeyValuePair<Keys, Key>(Keys.D6, Key.D6),
+                new KeyValuePair<Keys, Key>(Keys.D7, Key.D7),
+                new KeyValuePair<Keys, Key>(Keys.D8, Key.D8),
+                new KeyValuePair<Keys, Key>(Keys.D9, Key.D9),
+                new KeyValuePair<Keys, Key>(Keys.A, Key.A),
+                new KeyValuePair<Keys, Key>(Keys.B, Key.B),
+                new KeyValuePair<Keys, Key>(Keys.C, Key.C),
+                new KeyValuePair<Keys, Key>(Keys.D, Key.D),
+                new KeyValuePair<Keys, Key>(Keys.E, Key.E),
+                new KeyValuePair<Keys, Key>(Keys.F, Key.F),
+                new KeyValuePair<Keys, Key>(Keys.G, Key.G),
+                new KeyValuePair<Keys, Key>(Keys.H, Key.H),
+                new KeyValuePair<Keys, Key>(Keys.I, Key.I),
+                new KeyValuePair<Keys, Key>(Keys.J, Key.J),
+                new KeyValuePair<Keys, Key>(Keys.K, Key.K),
+                new KeyValuePair<Keys, Key>(Keys.L, Key.L),
+                new KeyValuePair<Keys, Key>(Keys.M, Key.M),
+                new KeyValuePair<Keys, Key>(Keys.N, Key.N),
+                new KeyValuePair<Keys, Key>(Keys.O, Key.O),
+                new KeyValuePair<Keys, Key>(Keys.P, Key.P),
+                new KeyValuePair<Keys, Key>(Keys.Q, Key.Q),
+                new KeyValuePair<Keys, Key>(Keys.R, Key.R),
+                new KeyValuePair<Keys, Key>(Keys.S, Key.S),
+                new KeyValuePair<Keys, Key>(Keys.T, Key.T),
+                new KeyValuePair<Keys, Key>(Keys.U, Key.U),
+                new KeyValuePair<Keys, Key>(Keys.V, Key.V),
+                new KeyValuePair<Keys, Key>(Keys.W, Key.W),
+                new KeyValuePair<Keys, Key>(Keys.X, Key.X),
+                new KeyValuePair<Keys, Key>(Keys.Y, Key.Y),
+                new KeyValuePair<Keys, Key>(Keys.Z, Key.Z),
+                new KeyValuePair<Keys, Key>(Keys.Oemcomma, Key.Period),
+                new KeyValuePair<Keys, Key>(Keys.OemPeriod, Key.Period),
+                new KeyValuePair<Keys, Key>(Keys.Back, Key.Backspace),
+                new KeyValuePair<Keys, Key>(Keys.Escape, Key.Escape),
+                new KeyValuePair<Keys, Key>(Keys.Oemplus, Key.Equals),
+                new KeyValuePair<Keys, Key>(Keys.Enter, Key.Equals),
+                new KeyValuePair<Keys, Key>(Keys.OemOpenBrackets, Key.DecrementBase),
+                new KeyValuePair<Keys, Key>(Keys.OemCloseBrackets, Key.IncrementBase),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Oemplus, Key.Add),
+                new KeyValuePair<Keys, Key>(Keys.OemMinus, Key.Subtract),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D8, Key.Multiply),
+                new KeyValuePair<Keys, Key>(Keys.OemQuestion, Key.Divide),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D1, Key.Sqrt),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D2, Key.PiConstant),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D3, Key.EConstant),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D4, Key.Cos),
             }
             );
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            KeyPressed(Key.Add);
+        }
     }
 }

@@ -21,3 +21,6 @@ todo:
 //- add internal state indicators? or in debug only?
 
 - idea: button for entering edit mode when in result mode
+
+- float inaccuracy visible on higher bases
+- 123 * PI is not intuitive
