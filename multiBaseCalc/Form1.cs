@@ -33,29 +33,34 @@ namespace multiBaseCalc
 
             relativeDpi = DeviceDpi / 96.0f;
 
-            buttons.Add(new CalculatorButton(0, 0, Key.D7, "7"));
-            buttons.Add(new CalculatorButton(1, 0, Key.D8, "8"));
-            buttons.Add(new CalculatorButton(2, 0, Key.D9, "9"));
-            buttons.Add(new CalculatorButton(0, 1, Key.D4, "4"));
-            buttons.Add(new CalculatorButton(1, 1, Key.D5, "5"));
-            buttons.Add(new CalculatorButton(2, 1, Key.D6, "6"));
-            buttons.Add(new CalculatorButton(0, 2, Key.D1, "1"));
-            buttons.Add(new CalculatorButton(1, 2, Key.D2, "2"));
-            buttons.Add(new CalculatorButton(2, 2, Key.D3, "3"));
-            buttons.Add(new CalculatorButton(0, 3, Key.D0, "0"));
-            buttons.Add(new CalculatorButton(1, 3, Key.Period, "."));
-            buttons.Add(new CalculatorButton(2, 3, Key.Equals, "="));
+            buttons.Add(new CalculatorButton(2, 0, Key.D7, "7"));
+            buttons.Add(new CalculatorButton(3, 0, Key.D8, "8"));
+            buttons.Add(new CalculatorButton(4, 0, Key.D9, "9"));
+            buttons.Add(new CalculatorButton(2, 1, Key.D4, "4"));
+            buttons.Add(new CalculatorButton(3, 1, Key.D5, "5"));
+            buttons.Add(new CalculatorButton(4, 1, Key.D6, "6"));
+            buttons.Add(new CalculatorButton(2, 2, Key.D1, "1"));
+            buttons.Add(new CalculatorButton(3, 2, Key.D2, "2"));
+            buttons.Add(new CalculatorButton(4, 2, Key.D3, "3"));
+            buttons.Add(new CalculatorButton(2, 3, Key.D0, "0"));
+            buttons.Add(new CalculatorButton(3, 3, Key.Period, "."));
+            buttons.Add(new CalculatorButton(4, 3, Key.Equals, "="));
 
-            buttons.Add(new CalculatorButton(3, 0, Key.Divide, "/"));
-            buttons.Add(new CalculatorButton(3, 1, Key.Multiply, "*"));
-            buttons.Add(new CalculatorButton(3, 2, Key.Subtract, "-"));
-            buttons.Add(new CalculatorButton(3, 3, Key.Add, "+"));
+            buttons.Add(new CalculatorButton(5, 0, Key.Divide, "/"));
+            buttons.Add(new CalculatorButton(5, 1, Key.Multiply, "*"));
+            buttons.Add(new CalculatorButton(5, 2, Key.Subtract, "-"));
+            buttons.Add(new CalculatorButton(5, 3, Key.Add, "+"));
 
-            buttons.Add(new CalculatorButton(2, -2, Key.Escape, "C"));
-            buttons.Add(new CalculatorButton(3, -2, Key.Backspace, "⌫"));
+            buttons.Add(new CalculatorButton(4, -2, Key.Escape, "C"));
+            buttons.Add(new CalculatorButton(5, -2, Key.Backspace, "⌫"));
 
-            buttons.Add(new CalculatorButton(2, -1, Key.DecrementBase, "base↓"));
-            buttons.Add(new CalculatorButton(3, -1, Key.IncrementBase, "base↑"));
+            buttons.Add(new CalculatorButton(4, -1, Key.DecrementBase, "base↓"));
+            buttons.Add(new CalculatorButton(5, -1, Key.IncrementBase, "base↑"));
+
+            buttons.Add(new CalculatorButton(1, 0, Key.Sqrt, "√"));
+            buttons.Add(new CalculatorButton(1, 1, Key.PiConstant, "π"));
+            buttons.Add(new CalculatorButton(1, 2, Key.EConstant, "e"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Cos, "cos"));
 
             foreach (var i in buttons)
             {
