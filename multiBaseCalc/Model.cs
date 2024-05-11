@@ -22,7 +22,7 @@ namespace multiBaseCalc
  
         private CalculationState state = CalculationState.Result;
 
-        public Model(int maxNumberOfDigits = 8)
+        public Model(int maxNumberOfDigits = 15)
         {
             this.maxNumberOfDigits = maxNumberOfDigits;
         }
