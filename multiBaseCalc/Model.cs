@@ -158,6 +158,25 @@ namespace multiBaseCalc
                 operation = k;
             }
 
+            if (k == '!' || k == '@' || "!@#$".Contains(k))
+            {
+                if (state == CalculationState.EnteringFirst)
+                {
+                    firstNumber = CommitEditedNumber();
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    secondNumber = CommitEditedNumber();
+
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                }
+
+                firstNumber = PerformOperation(k, firstNumber, 0.0);
+                DisplayResult();
+
+                state = CalculationState.Result;
+            }
+
             if (k == '=' || k == (int)Keys.Enter)
             {
                 if (state == CalculationState.Result)
@@ -206,6 +225,10 @@ namespace multiBaseCalc
             if (operation == '-') return lhs - rhs;
             if (operation == '*') return lhs * rhs;
             if (operation == '/') return lhs / rhs;
+            if (operation == '!') return Math.Sqrt(lhs);
+            if (operation == '@') return Math.PI;
+            if (operation == '#') return Math.E;
+            if (operation == '$') return Math.Cos(lhs);
 
             throw new ArgumentException("invalid operation");
         } 

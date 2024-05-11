@@ -14,10 +14,10 @@ todo:
 //- detecting infinity, div/0
 - buttons for specific bases, 16, 10, 8, 2
 - add buttons to GUI?
-- handle truncating in view
-    - limit max number of digits? different bases have different number of digits
-    - limit max value?
-    - add ellipsis? reducing font size?
+//- handle truncating in view
+    //- limit max number of digits? different bases have different number of digits
+    //- limit max value?
+    //- add ellipsis? reducing font size?
 //- add internal state indicators? or in debug only?
 
 - idea: button for entering edit mode when in result mode
