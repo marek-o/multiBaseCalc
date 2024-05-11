@@ -159,7 +159,7 @@ namespace multiBaseCalc
                 operation = k;
             }
 
-            if (k == Key.Sqrt || k == Key.PiConstant || k == Key.EConstant || k == Key.Cos)
+            if (k == Key.Sqrt || k == Key.Cos)
             {
                 if (state == CalculationState.EnteringFirst)
                 {
@@ -176,6 +176,22 @@ namespace multiBaseCalc
                 DisplayResult();
 
                 state = CalculationState.Result;
+            }
+
+            if (k == Key.PiConstant || k == Key.EConstant)
+            {
+                if (state == CalculationState.Result)
+                {
+                    state = CalculationState.EnteringFirst;
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    state = CalculationState.EnteringSecond;
+                }
+
+                editedNumber.Clear();
+                editedNumber.Append(BaseConverter.DoubleToString(PerformOperation(k, 0.0, 0.0), @base, maxNumberOfDigits));
+                DisplayEditedNumber();
             }
 
             if (k == Key.Equals)

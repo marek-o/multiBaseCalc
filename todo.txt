@@ -23,4 +23,4 @@ todo:
 - idea: button for entering edit mode when in result mode
 
 - float inaccuracy visible on higher bases
-- 123 * PI is not intuitive
+//- 123 * PI is not intuitive

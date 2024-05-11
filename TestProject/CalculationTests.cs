@@ -260,5 +260,15 @@ namespace TestProject
             view.PressKey("+444=");
             Assert.AreEqual("444", view.numberText);
         }
+
+        [Test]
+        public void ConstantAsSecondArgument()
+        {
+            view.PressKey("100+");
+            view.PressKey(Key.PiConstant);
+            view.PressKey(Key.Equals);
+
+            Assert.AreEqual("103.14159265359", view.numberText);
+        }
     }
 }
