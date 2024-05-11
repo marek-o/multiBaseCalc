@@ -1,5 +1,6 @@
 ﻿using multiBaseCalc;
 using NUnit.Framework;
+using System.Linq;
 
 namespace TestProject
 {
@@ -23,7 +24,7 @@ namespace TestProject
             Assert.AreEqual("100", view.numberText);
             Assert.AreEqual("base 10", view.baseLabelText);
 
-            view.PressKey("]");
+            view.PressKey(Key.IncrementBase);
             Assert.AreEqual("91", view.numberText);
             Assert.AreEqual("base 11", view.baseLabelText);
         }
@@ -31,7 +32,7 @@ namespace TestProject
         [Test]
         public void Base2To10Test()
         {
-            view.PressKey("[[[[[[[[");
+            view.PressKey(Enumerable.Repeat(Key.DecrementBase, 8));
             Assert.AreEqual("0", view.numberText);
             Assert.AreEqual("base 2", view.baseLabelText);
 
@@ -39,7 +40,7 @@ namespace TestProject
             Assert.AreEqual("1011101", view.numberText);
             Assert.AreEqual("base 2", view.baseLabelText);
 
-            view.PressKey("]]]]]]]]");
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 8));
             Assert.AreEqual("93", view.numberText);
             Assert.AreEqual("base 10", view.baseLabelText);
         }
@@ -47,7 +48,7 @@ namespace TestProject
         [Test]
         public void Base16To7Test()
         {
-            view.PressKey("]]]]]]");
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 6));
             Assert.AreEqual("0", view.numberText);
             Assert.AreEqual("base 16", view.baseLabelText);
 
@@ -55,7 +56,7 @@ namespace TestProject
             Assert.AreEqual("8d3", view.numberText);
             Assert.AreEqual("base 16", view.baseLabelText);
 
-            view.PressKey("[[[[[[[[[");
+            view.PressKey(Enumerable.Repeat(Key.DecrementBase, 9));
             Assert.AreEqual("6405", view.numberText);
             Assert.AreEqual("base 7", view.baseLabelText);
         }
@@ -67,7 +68,7 @@ namespace TestProject
             Assert.AreEqual("12345", view.numberText);
             Assert.AreEqual("base 10", view.baseLabelText);
 
-            view.PressKey(new string(']', 26));
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 26));
             Assert.AreEqual("9ix", view.numberText);
             Assert.AreEqual("base 36", view.baseLabelText);
         }
@@ -75,11 +76,11 @@ namespace TestProject
         [Test]
         public void BaseWholeRangeTest()
         {
-            view.PressKey(new string(']', 26));
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 26));
             Assert.AreEqual("0", view.numberText);
             Assert.AreEqual("base 36", view.baseLabelText);
 
-            view.PressKey("]");
+            view.PressKey(Key.IncrementBase);
             Assert.AreEqual("0", view.numberText);
             Assert.AreEqual("base 36", view.baseLabelText);
 
@@ -96,7 +97,7 @@ namespace TestProject
             {
                 Assert.AreEqual(numbers[b], view.numberText);
                 Assert.AreEqual(string.Format("base {0}", b), view.baseLabelText);
-                view.PressKey("[");
+                view.PressKey(Key.DecrementBase);
             }
         }
     }

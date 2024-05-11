@@ -1,5 +1,6 @@
 ﻿using multiBaseCalc;
 using System;
+using System.Collections.Generic;
 
 namespace TestProject
 {
@@ -23,6 +24,14 @@ namespace TestProject
         }
 
         public void PressKey(string keys)
+        {
+            foreach (var key in keys)
+            {
+                PressKey(key);
+            }
+        }
+
+        public void PressKey(IEnumerable<Key> keys)
         {
             foreach (var key in keys)
             {

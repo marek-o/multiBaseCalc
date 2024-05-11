@@ -33,7 +33,7 @@ namespace TestProject
             view.PressKey("1");
             Assert.AreEqual("1", view.numberText);
 
-            view.PressKey("+");
+            view.PressKey(Key.Add);
             Assert.AreEqual("1", view.numberText);
 
             view.PressKey("2");

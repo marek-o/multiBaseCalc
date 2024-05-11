@@ -1,5 +1,6 @@
 ﻿using multiBaseCalc;
 using NUnit.Framework;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TestProject
@@ -222,20 +223,20 @@ namespace TestProject
             view.PressKey("255");
             Assert.AreEqual("255", view.numberText);
 
-            view.PressKey("[[[[[[[[");
+            view.PressKey(Enumerable.Repeat(Key.DecrementBase, 8));
             Assert.AreEqual("11111111", view.numberText);
 
             view.PressKey("+1="); //100000000 base 2
             Assert.AreEqual("########", view.numberText);
 
-            view.PressKey("]]]]]]]]");
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 8));
             Assert.AreEqual("256", view.numberText);
         }
 
         [Test]
         public void BaseConversion_RoundingBase16()
         {
-            view.PressKey("]]]]]]");
+            view.PressKey(Enumerable.Repeat(Key.IncrementBase, 6));
             view.PressKey("fffffff.f+0.8f="); //10000000.7f base 16
             Assert.AreEqual("10000000", view.numberText);
 
@@ -252,7 +253,7 @@ namespace TestProject
         [Test]
         public void BaseConversion_RoundingBase9()
         {
-            view.PressKey("[");
+            view.PressKey(Key.DecrementBase);
             view.PressKey("4444.4444="); //4444.44440000... base 9
             Assert.AreEqual("4444.4444", view.numberText);
 
@@ -278,7 +279,7 @@ namespace TestProject
         [Test]
         public void BaseConversion_RoundingBase9_Negative()
         {
-            view.PressKey("[");
+            view.PressKey(Key.DecrementBase);
             view.PressKey("-4444.4444="); //-4444.44440000... base 9
             Assert.AreEqual("-4444.4444", view.numberText);
 
