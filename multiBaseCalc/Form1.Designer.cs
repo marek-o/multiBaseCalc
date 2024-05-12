@@ -31,21 +31,16 @@ namespace multiBaseCalc
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new System.Windows.Forms.Label();
+            display = new DisplayControl();
             labelBase = new System.Windows.Forms.Label();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(20, 9);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(531, 63);
-            label1.TabIndex = 0;
-            label1.Text = "1234567890abcdef";
-            label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            label1.BackColor = Color.LightGray;
+            //
+            // display
+            //
+            display.Location = new Point(20, 9);
+            display.Size = new Size(531, 63);
+            display.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            display.KeyDown += Form1_KeyDown;
             // 
             // labelBase
             // 
@@ -64,7 +59,7 @@ namespace multiBaseCalc
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(560, 400);
             Controls.Add(labelBase);
-            Controls.Add(label1);
+            Controls.Add(display);
             Name = "Form1";
             Text = "Multi Base Calc";
             KeyDown += Form1_KeyDown;
@@ -77,7 +72,7 @@ namespace multiBaseCalc
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private DisplayControl display;
         private System.Windows.Forms.Label labelBase;
     }
 }

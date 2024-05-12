@@ -84,7 +84,8 @@ namespace multiBaseCalc
 
         public void SetNumber(string s)
         {
-            label1.Text = s;
+            display.Text = s;
+            display.Invalidate();
         }
 
         public void SetBaseLabel(string s)
