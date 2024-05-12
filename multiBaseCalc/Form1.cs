@@ -33,43 +33,43 @@ namespace multiBaseCalc
 
             relativeDpi = DeviceDpi / 96.0f;
 
-            buttons.Add(new CalculatorButton(2, 0, Key.D7, "7"));
-            buttons.Add(new CalculatorButton(3, 0, Key.D8, "8"));
-            buttons.Add(new CalculatorButton(4, 0, Key.D9, "9"));
-            buttons.Add(new CalculatorButton(2, 1, Key.D4, "4"));
-            buttons.Add(new CalculatorButton(3, 1, Key.D5, "5"));
-            buttons.Add(new CalculatorButton(4, 1, Key.D6, "6"));
-            buttons.Add(new CalculatorButton(2, 2, Key.D1, "1"));
-            buttons.Add(new CalculatorButton(3, 2, Key.D2, "2"));
-            buttons.Add(new CalculatorButton(4, 2, Key.D3, "3"));
-            buttons.Add(new CalculatorButton(2, 3, Key.D0, "0"));
-            buttons.Add(new CalculatorButton(3, 3, Key.Period, "."));
-            buttons.Add(new CalculatorButton(4, 3, Key.Equals, "="));
+            buttons.Add(new CalculatorButton(3, 2, Key.D7, "7"));
+            buttons.Add(new CalculatorButton(4, 2, Key.D8, "8"));
+            buttons.Add(new CalculatorButton(5, 2, Key.D9, "9"));
+            buttons.Add(new CalculatorButton(3, 3, Key.D4, "4"));
+            buttons.Add(new CalculatorButton(4, 3, Key.D5, "5"));
+            buttons.Add(new CalculatorButton(5, 3, Key.D6, "6"));
+            buttons.Add(new CalculatorButton(3, 4, Key.D1, "1"));
+            buttons.Add(new CalculatorButton(4, 4, Key.D2, "2"));
+            buttons.Add(new CalculatorButton(5, 4, Key.D3, "3"));
+            buttons.Add(new CalculatorButton(3, 5, Key.D0, "0"));
+            buttons.Add(new CalculatorButton(4, 5, Key.Period, "."));
+            buttons.Add(new CalculatorButton(5, 5, Key.Equals, "="));
 
-            buttons.Add(new CalculatorButton(5, 0, Key.Divide, "/"));
-            buttons.Add(new CalculatorButton(5, 1, Key.Multiply, "*"));
-            buttons.Add(new CalculatorButton(5, 2, Key.Subtract, "-"));
-            buttons.Add(new CalculatorButton(5, 3, Key.Add, "+"));
+            buttons.Add(new CalculatorButton(6, 2, Key.Divide, "/"));
+            buttons.Add(new CalculatorButton(6, 3, Key.Multiply, "*"));
+            buttons.Add(new CalculatorButton(6, 4, Key.Subtract, "-"));
+            buttons.Add(new CalculatorButton(6, 5, Key.Add, "+"));
 
-            buttons.Add(new CalculatorButton(4, -2, Key.Escape, "C"));
-            buttons.Add(new CalculatorButton(5, -2, Key.Backspace, "⌫"));
+            buttons.Add(new CalculatorButton(5, 0, Key.Escape, "C"));
+            buttons.Add(new CalculatorButton(6, 0, Key.Backspace, "⌫"));
 
-            buttons.Add(new CalculatorButton(0, -1, Key.Base2, "BIN\nF5"));
-            buttons.Add(new CalculatorButton(1, -1, Key.Base8, "OCT\nF6"));
-            buttons.Add(new CalculatorButton(2, -1, Key.Base10, "DEC\nF7"));
-            buttons.Add(new CalculatorButton(3, -1, Key.Base16, "HEX\nF8"));
-            buttons.Add(new CalculatorButton(4, -1, Key.DecrementBase, "base↓\n["));
-            buttons.Add(new CalculatorButton(5, -1, Key.IncrementBase, "base↑\n]"));
+            buttons.Add(new CalculatorButton(1, 1, Key.Base2, "BIN\nF5"));
+            buttons.Add(new CalculatorButton(2, 1, Key.Base8, "OCT\nF6"));
+            buttons.Add(new CalculatorButton(3, 1, Key.Base10, "DEC\nF7"));
+            buttons.Add(new CalculatorButton(4, 1, Key.Base16, "HEX\nF8"));
+            buttons.Add(new CalculatorButton(5, 1, Key.DecrementBase, "base↓\n["));
+            buttons.Add(new CalculatorButton(6, 1, Key.IncrementBase, "base↑\n]"));
 
-            buttons.Add(new CalculatorButton(1, 0, Key.Sqrt, "√\nShift+1"));
-            buttons.Add(new CalculatorButton(1, 1, Key.PiConstant, "π\nShift+2"));
-            buttons.Add(new CalculatorButton(1, 2, Key.EConstant, "e\nShift+3"));
-            buttons.Add(new CalculatorButton(1, 3, Key.Cos, "cos\nShift+4"));
+            buttons.Add(new CalculatorButton(2, 2, Key.Sqrt, "√\nShift+1"));
+            buttons.Add(new CalculatorButton(2, 3, Key.PiConstant, "π\nShift+2"));
+            buttons.Add(new CalculatorButton(2, 4, Key.EConstant, "e\nShift+3"));
+            buttons.Add(new CalculatorButton(2, 5, Key.Cos, "cos\nShift+4"));
 
             foreach (var i in buttons)
             {
                 i.Button = new ButtonNoEnter();
-                i.Button.Location = new Point(Scale(i.X * 70 + 10), Scale(i.Y * 60 + 210));
+                i.Button.Location = new Point(Scale(i.X * 70 + 10), Scale(i.Y * 60 + 150));
                 i.Button.Size = new Size(Scale(60), Scale(50));
                 float fontSize = i.Text.Length == 1 ? 20f : 10f;
                 i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);

@@ -46,7 +46,7 @@ namespace multiBaseCalc
             // 
             labelBase.AutoSize = true;
             labelBase.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            labelBase.Location = new System.Drawing.Point(450, 130);
+            labelBase.Location = new System.Drawing.Point(520, 190);
             labelBase.Name = "labelBase";
             labelBase.Size = new System.Drawing.Size(38, 15);
             labelBase.TabIndex = 1;
@@ -57,7 +57,7 @@ namespace multiBaseCalc
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(560, 400);
+            ClientSize = new System.Drawing.Size(630, 460);
             Controls.Add(labelBase);
             Controls.Add(display);
             Name = "Form1";
