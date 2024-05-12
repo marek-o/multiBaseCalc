@@ -12,7 +12,7 @@ namespace multiBaseCalc
 {
     public interface IView
     {
-        public void SetNumber(string s);
+        public void SetNumber(string s, int separatorGroupSize);
         public void SetBaseLabel(string s);
         public event Action<Key> KeyPressed;
     }
@@ -82,10 +82,9 @@ namespace multiBaseCalc
             }
         }
 
-        public void SetNumber(string s)
+        public void SetNumber(string s, int separatorGroupSize)
         {
-            display.Text = s;
-            display.Invalidate();
+            display.SetContent(s, separatorGroupSize);
         }
 
         public void SetBaseLabel(string s)

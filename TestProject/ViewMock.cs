@@ -92,7 +92,7 @@ namespace TestProject
             baseLabelText = s;
         }
 
-        public void SetNumber(string s)
+        public void SetNumber(string s, int separatorGroupSize)
         {
             numberText = s;
         }

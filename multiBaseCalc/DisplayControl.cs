@@ -19,23 +19,21 @@ namespace multiBaseCalc
         private string periodText = "";
         private string separatorText = "";
 
-        protected override void OnTextChanged(EventArgs e)
+        public void SetContent(string text, int separatorGroupSize)
         {
-            base.OnTextChanged(e);
+            digitText = text.Replace(".", "");
 
-            digitText = Text.Replace(".", "");
-
-            if (Text.Length > 0 && Text[0] == '[')
+            if (text.Length > 0 && text[0] == '[')
             {
                 periodText = "";
                 separatorText = "";
                 return;
             }
-            
-            int periodPos = Text.IndexOf('.');
+
+            int periodPos = text.IndexOf('.');
             if (periodPos == -1)
             {
-                periodPos = Text.Length;
+                periodPos = text.Length;
             }
 
             char[] periodTextArray = Enumerable.Repeat(' ', digitText.Length * 2).ToArray();
@@ -44,21 +42,22 @@ namespace multiBaseCalc
             periodText = new string(periodTextArray);
 
             char[] separatorTextArray = Enumerable.Repeat(' ', digitText.Length * 2).ToArray();
-            int separatorGroupCount = 3;
-            int i = outPeriodPos - separatorGroupCount * 2;
+            int i = outPeriodPos - separatorGroupSize * 2;
             while (i >= (digitText[0] == '-' ? 2 : 0))
             {
                 separatorTextArray[i] = '.';
-                i -= separatorGroupCount * 2;
+                i -= separatorGroupSize * 2;
             }
-            i = outPeriodPos + separatorGroupCount * 2;
+            i = outPeriodPos + separatorGroupSize * 2;
             while (i < separatorTextArray.Length)
             {
                 separatorTextArray[i] = '.';
-                i += separatorGroupCount * 2;
+                i += separatorGroupSize * 2;
             }
 
             separatorText = new string(separatorTextArray);
+
+            Invalidate();
         }
 
         private int DpiScale(int x)

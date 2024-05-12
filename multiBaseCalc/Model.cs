@@ -37,7 +37,7 @@ namespace multiBaseCalc
             this.view = view;
             this.view.KeyPressed += View_KeyPressed;
 
-            view.SetNumber("0");
+            view.SetNumber("0", SeparatorGroupSize());
             UpdateBaseLabel();
         }
 
@@ -264,24 +264,30 @@ namespace multiBaseCalc
             throw new ArgumentException("invalid operation");
         } 
 
+        private int SeparatorGroupSize()
+        {
+            return (@base == 10) ? 3 : 4;
+        }
+
         private void DisplayResult()
         {
-            view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
+            view.SetNumber(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits),
+                SeparatorGroupSize());
         }
 
         private void DisplayEditedNumber()
         {
             if (editedNumber.Length == 0)
             {
-                view.SetNumber("0");
+                view.SetNumber("0", SeparatorGroupSize());
             }
             else if (editedNumber[0] == '.')
             {
-                view.SetNumber("0" + editedNumber.ToString());
+                view.SetNumber("0" + editedNumber.ToString(), SeparatorGroupSize());
             }
             else
             {
-                view.SetNumber(editedNumber.ToString());
+                view.SetNumber(editedNumber.ToString(), SeparatorGroupSize());
             }
         }
 
