@@ -54,23 +54,23 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(4, -2, Key.Escape, "C"));
             buttons.Add(new CalculatorButton(5, -2, Key.Backspace, "⌫"));
 
-            buttons.Add(new CalculatorButton(0, -1, Key.Base2, "BIN"));
-            buttons.Add(new CalculatorButton(1, -1, Key.Base8, "OCT"));
-            buttons.Add(new CalculatorButton(2, -1, Key.Base10, "DEC"));
-            buttons.Add(new CalculatorButton(3, -1, Key.Base16, "HEX"));
-            buttons.Add(new CalculatorButton(4, -1, Key.DecrementBase, "base↓"));
-            buttons.Add(new CalculatorButton(5, -1, Key.IncrementBase, "base↑"));
+            buttons.Add(new CalculatorButton(0, -1, Key.Base2, "BIN\nF5"));
+            buttons.Add(new CalculatorButton(1, -1, Key.Base8, "OCT\nF6"));
+            buttons.Add(new CalculatorButton(2, -1, Key.Base10, "DEC\nF7"));
+            buttons.Add(new CalculatorButton(3, -1, Key.Base16, "HEX\nF8"));
+            buttons.Add(new CalculatorButton(4, -1, Key.DecrementBase, "base↓\n["));
+            buttons.Add(new CalculatorButton(5, -1, Key.IncrementBase, "base↑\n]"));
 
-            buttons.Add(new CalculatorButton(1, 0, Key.Sqrt, "√"));
-            buttons.Add(new CalculatorButton(1, 1, Key.PiConstant, "π"));
-            buttons.Add(new CalculatorButton(1, 2, Key.EConstant, "e"));
-            buttons.Add(new CalculatorButton(1, 3, Key.Cos, "cos"));
+            buttons.Add(new CalculatorButton(1, 0, Key.Sqrt, "√\nShift+1"));
+            buttons.Add(new CalculatorButton(1, 1, Key.PiConstant, "π\nShift+2"));
+            buttons.Add(new CalculatorButton(1, 2, Key.EConstant, "e\nShift+3"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Cos, "cos\nShift+4"));
 
             foreach (var i in buttons)
             {
                 i.Button = new ButtonNoEnter();
-                i.Button.Location = new Point(Scale(i.X * 60 + 10), Scale(i.Y * 60 + 200));
-                i.Button.Size = new Size(Scale(50), Scale(50));
+                i.Button.Location = new Point(Scale(i.X * 70 + 10), Scale(i.Y * 60 + 200));
+                i.Button.Size = new Size(Scale(60), Scale(50));
                 float fontSize = i.Text.Length == 1 ? 20f : 10f;
                 i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);
 
