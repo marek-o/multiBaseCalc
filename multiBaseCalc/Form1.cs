@@ -69,7 +69,7 @@ namespace multiBaseCalc
             foreach (var i in buttons)
             {
                 i.Button = new ButtonNoEnter();
-                i.Button.Location = new Point(Scale(i.X * 70 + 10), Scale(i.Y * 60 + 200));
+                i.Button.Location = new Point(Scale(i.X * 70 + 10), Scale(i.Y * 60 + 210));
                 i.Button.Size = new Size(Scale(60), Scale(50));
                 float fontSize = i.Text.Length == 1 ? 20f : 10f;
                 i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);

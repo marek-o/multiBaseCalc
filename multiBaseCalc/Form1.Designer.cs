@@ -1,4 +1,6 @@
 ﻿
+using System.Drawing;
+
 namespace multiBaseCalc
 {
     partial class Form1
@@ -36,17 +38,20 @@ namespace multiBaseCalc
             // label1
             // 
             label1.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(-1, 9);
+            label1.Location = new System.Drawing.Point(20, 9);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(531, 63);
             label1.TabIndex = 0;
             label1.Text = "1234567890abcdef";
             label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            label1.BackColor = Color.LightGray;
             // 
             // labelBase
             // 
             labelBase.AutoSize = true;
-            labelBase.Location = new System.Drawing.Point(480, 90);
+            labelBase.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            labelBase.Location = new System.Drawing.Point(450, 130);
             labelBase.Name = "labelBase";
             labelBase.Size = new System.Drawing.Size(38, 15);
             labelBase.TabIndex = 1;
@@ -57,12 +62,15 @@ namespace multiBaseCalc
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(530, 400);
+            ClientSize = new System.Drawing.Size(560, 400);
             Controls.Add(labelBase);
             Controls.Add(label1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Multi Base Calc";
             KeyDown += Form1_KeyDown;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            MaximizeBox = false;
             ResumeLayout(false);
             PerformLayout();
         }

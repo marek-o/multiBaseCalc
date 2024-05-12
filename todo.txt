@@ -12,8 +12,8 @@ todo:
 
 //- ignore 0 at the beginning
 //- detecting infinity, div/0
-- buttons for specific bases, 16, 10, 8, 2
-- add buttons to GUI?
+//- buttons for specific bases, 16, 10, 8, 2
+//- add buttons to GUI?
 //- handle truncating in view
     //- limit max number of digits? different bases have different number of digits
     //- limit max value?
@@ -24,3 +24,4 @@ todo:
 
 - float inaccuracy visible on higher bases
 //- 123 * PI is not intuitive
+- operations to add: 1/x, x^2, x^y, yroot(x), log10(x), ln(x), logy(x), sin, cos, tan, cot, (, ), e^x, +/-
