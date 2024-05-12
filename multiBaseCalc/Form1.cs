@@ -54,6 +54,10 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(4, -2, Key.Escape, "C"));
             buttons.Add(new CalculatorButton(5, -2, Key.Backspace, "⌫"));
 
+            buttons.Add(new CalculatorButton(0, -1, Key.Base2, "BIN"));
+            buttons.Add(new CalculatorButton(1, -1, Key.Base8, "OCT"));
+            buttons.Add(new CalculatorButton(2, -1, Key.Base10, "DEC"));
+            buttons.Add(new CalculatorButton(3, -1, Key.Base16, "HEX"));
             buttons.Add(new CalculatorButton(4, -1, Key.DecrementBase, "base↓"));
             buttons.Add(new CalculatorButton(5, -1, Key.IncrementBase, "base↑"));
 
@@ -144,6 +148,10 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.Enter, Key.Equals),
                 new KeyValuePair<Keys, Key>(Keys.OemOpenBrackets, Key.DecrementBase),
                 new KeyValuePair<Keys, Key>(Keys.OemCloseBrackets, Key.IncrementBase),
+                new KeyValuePair<Keys, Key>(Keys.F5, Key.Base2),
+                new KeyValuePair<Keys, Key>(Keys.F6, Key.Base8),
+                new KeyValuePair<Keys, Key>(Keys.F7, Key.Base10),
+                new KeyValuePair<Keys, Key>(Keys.F8, Key.Base16),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Oemplus, Key.Add),
                 new KeyValuePair<Keys, Key>(Keys.OemMinus, Key.Subtract),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D8, Key.Multiply),

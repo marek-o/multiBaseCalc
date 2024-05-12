@@ -12,6 +12,7 @@
         Equals,
         IncrementBase,
         DecrementBase,
+        Base2, Base8, Base10, Base16,
         Add, Subtract, Multiply, Divide,
         Sqrt, PiConstant, EConstant, Cos,
     }

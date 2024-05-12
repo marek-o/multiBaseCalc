@@ -43,7 +43,12 @@ namespace multiBaseCalc
 
         private void View_KeyPressed(Key k)
         {
-            if ((k == Key.DecrementBase || k == Key.IncrementBase)
+            if ((k == Key.DecrementBase
+                || k == Key.IncrementBase
+                || k == Key.Base2
+                || k == Key.Base8
+                || k == Key.Base10
+                || k == Key.Base16)
                 &&
                   (state == CalculationState.Result
                 || state == CalculationState.EnteringFirst))
@@ -54,10 +59,19 @@ namespace multiBaseCalc
                     state = CalculationState.Result;
                 }
 
-                int dir = k == Key.IncrementBase ? 1 : -1;
-                @base = Math.Max(2, Math.Min(36, @base + dir));
-                UpdateBaseLabel();
+                switch (k)
+                {
+                    case Key.IncrementBase:
+                        @base = Math.Max(2, Math.Min(36, @base + 1)); break;
+                    case Key.DecrementBase:
+                        @base = Math.Max(2, Math.Min(36, @base - 1)); break;
+                    case Key.Base2: @base = 2; break;
+                    case Key.Base8: @base = 8; break;
+                    case Key.Base10: @base = 10; break;
+                    case Key.Base16: @base = 16; break;
+                }
 
+                UpdateBaseLabel();
                 DisplayResult();
             }
 
