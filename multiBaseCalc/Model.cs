@@ -173,7 +173,16 @@ namespace multiBaseCalc
                 operation = k;
             }
 
-            if (k == Key.Sqrt || k == Key.Cos)
+            if (k == Key.Inverse
+                || k == Key.Square
+                || k == Key.Sqrt
+                || k == Key.Log10
+                || k == Key.Ln
+                || k == Key.Exp
+                || k == Key.Sin
+                || k == Key.Cos
+                || k == Key.Tan
+                )
             {
                 if (state == CalculationState.EnteringFirst)
                 {
@@ -256,10 +265,17 @@ namespace multiBaseCalc
             if (operation == Key.Subtract) return lhs - rhs;
             if (operation == Key.Multiply) return lhs * rhs;
             if (operation == Key.Divide) return lhs / rhs;
+            if (operation == Key.Inverse) return 1.0 / lhs;
+            if (operation == Key.Square) return lhs * lhs;
             if (operation == Key.Sqrt) return Math.Sqrt(lhs);
+            if (operation == Key.Log10) return Math.Log10(lhs);
+            if (operation == Key.Ln) return Math.Log(lhs);
+            if (operation == Key.Exp) return Math.Exp(lhs);
             if (operation == Key.PiConstant) return Math.PI;
             if (operation == Key.EConstant) return Math.E;
+            if (operation == Key.Sin) return Math.Sin(lhs);
             if (operation == Key.Cos) return Math.Cos(lhs);
+            if (operation == Key.Tan) return Math.Tan(lhs);
 
             throw new ArgumentException("invalid operation");
         } 

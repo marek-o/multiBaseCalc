@@ -61,10 +61,19 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(5, 1, Key.DecrementBase, "base↓\n["));
             buttons.Add(new CalculatorButton(6, 1, Key.IncrementBase, "base↑\n]"));
 
+            buttons.Add(new CalculatorButton(0, 2, Key.Inverse, "1/x\nShift+Q"));
+            buttons.Add(new CalculatorButton(0, 3, Key.Square, "x^2\nShift+W"));
+            buttons.Add(new CalculatorButton(0, 4, Key.Log10, "log10(x)\nShift+E"));
+            buttons.Add(new CalculatorButton(0, 5, Key.Ln, "ln(x)\nShift+R"));
+
+            buttons.Add(new CalculatorButton(1, 2, Key.Exp, "e^x\nShift+T"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Sin, "sin\nShift+Y"));
+            buttons.Add(new CalculatorButton(1, 4, Key.Cos, "cos\nShift+U"));
+            buttons.Add(new CalculatorButton(1, 5, Key.Tan, "tan\nShift+I"));
+
             buttons.Add(new CalculatorButton(2, 2, Key.Sqrt, "√\nShift+1"));
             buttons.Add(new CalculatorButton(2, 3, Key.PiConstant, "π\nShift+2"));
             buttons.Add(new CalculatorButton(2, 4, Key.EConstant, "e\nShift+3"));
-            buttons.Add(new CalculatorButton(2, 5, Key.Cos, "cos\nShift+4"));
 
             foreach (var i in buttons)
             {
@@ -156,10 +165,17 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.OemMinus, Key.Subtract),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D8, Key.Multiply),
                 new KeyValuePair<Keys, Key>(Keys.OemQuestion, Key.Divide),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Q, Key.Inverse),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.W, Key.Square),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D1, Key.Sqrt),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.E, Key.Log10),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.R, Key.Ln),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.T, Key.Exp),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D2, Key.PiConstant),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D3, Key.EConstant),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D4, Key.Cos),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Y, Key.Sin),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.U, Key.Cos),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.I, Key.Tan),
             }
             );
     }

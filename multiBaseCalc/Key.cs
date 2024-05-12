@@ -14,6 +14,11 @@
         DecrementBase,
         Base2, Base8, Base10, Base16,
         Add, Subtract, Multiply, Divide,
-        Sqrt, PiConstant, EConstant, Cos,
+        Inverse, Square, 
+        Sqrt,
+        Log10,
+        Ln, Exp,
+        PiConstant, EConstant,
+        Sin, Cos, Tan,
     }
 }
