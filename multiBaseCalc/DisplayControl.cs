@@ -27,6 +27,7 @@ namespace multiBaseCalc
             {
                 periodText = "";
                 separatorText = "";
+                Invalidate();
                 return;
             }
 
