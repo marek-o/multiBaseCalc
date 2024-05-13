@@ -79,6 +79,8 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(1, 0, Key.NthRoot, "y√x\nShift+P"));
             buttons.Add(new CalculatorButton(2, 0, Key.NthLog, "log_y(x)\nShift+A"));
 
+            buttons.Add(new CalculatorButton(4, 0, Key.Negate, "+/-\nShift+S"));
+
             foreach (var i in buttons)
             {
                 i.Button = new ButtonNoEnter();
@@ -169,6 +171,7 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.OemMinus, Key.Subtract),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D8, Key.Multiply),
                 new KeyValuePair<Keys, Key>(Keys.OemQuestion, Key.Divide),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.S, Key.Negate),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Q, Key.Inverse),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.W, Key.Square),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.O, Key.Power),

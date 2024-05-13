@@ -14,6 +14,7 @@
         DecrementBase,
         Base2, Base8, Base10, Base16,
         Add, Subtract, Multiply, Divide,
+        Negate,
         Inverse, Square, Power,
         Sqrt, NthRoot,
         Log10, NthLog,

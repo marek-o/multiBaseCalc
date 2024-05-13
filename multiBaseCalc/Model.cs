@@ -224,6 +224,28 @@ namespace multiBaseCalc
                 DisplayEditedNumber();
             }
 
+            if (k == Key.Negate)
+            {
+                if (state == CalculationState.EnteringFirst 
+                    || state == CalculationState.EnteringSecond)
+                {
+                    if (editedNumber[0] == '-')
+                    {
+                        editedNumber.Remove(0, 1);
+                    }
+                    else
+                    {
+                        editedNumber.Insert(0, '-');
+                    }
+                    DisplayEditedNumber();
+                }
+                else if (state == CalculationState.Result)
+                {
+                    firstNumber = -firstNumber;
+                    DisplayResult();
+                }
+            }
+
             if (k == Key.Equals)
             {
                 if (state == CalculationState.Result)
@@ -310,6 +332,10 @@ namespace multiBaseCalc
             else if (editedNumber[0] == '.')
             {
                 view.SetNumber("0" + editedNumber.ToString(), SeparatorGroupSize());
+            }
+            else if (editedNumber[0] == '-' && editedNumber[1] == '.')
+            {
+                view.SetNumber("-0" + editedNumber.ToString().Substring(1), SeparatorGroupSize());
             }
             else
             {
