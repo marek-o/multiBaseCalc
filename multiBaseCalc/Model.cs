@@ -155,7 +155,14 @@ namespace multiBaseCalc
                 }
             }
 
-            if (k == Key.Add || k == Key.Subtract || k == Key.Multiply || k == Key.Divide)
+            if (k == Key.Add
+                || k == Key.Subtract
+                || k == Key.Multiply
+                || k == Key.Divide
+                || k == Key.Power
+                || k == Key.NthRoot
+                || k == Key.NthLog
+                )
             {
                 if (state == CalculationState.EnteringFirst)
                 {
@@ -267,8 +274,11 @@ namespace multiBaseCalc
             if (operation == Key.Divide) return lhs / rhs;
             if (operation == Key.Inverse) return 1.0 / lhs;
             if (operation == Key.Square) return lhs * lhs;
+            if (operation == Key.Power) return Math.Pow(lhs, rhs);
             if (operation == Key.Sqrt) return Math.Sqrt(lhs);
+            if (operation == Key.NthRoot) return Math.Pow(lhs, 1 / rhs);
             if (operation == Key.Log10) return Math.Log10(lhs);
+            if (operation == Key.NthLog) return Math.Log(lhs) / Math.Log(rhs);
             if (operation == Key.Ln) return Math.Log(lhs);
             if (operation == Key.Exp) return Math.Exp(lhs);
             if (operation == Key.PiConstant) return Math.PI;

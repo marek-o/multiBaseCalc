@@ -75,6 +75,10 @@ namespace multiBaseCalc
             buttons.Add(new CalculatorButton(2, 3, Key.PiConstant, "π\nShift+2"));
             buttons.Add(new CalculatorButton(2, 4, Key.EConstant, "e\nShift+3"));
 
+            buttons.Add(new CalculatorButton(0, 0, Key.Power, "x^y\nShift+O"));
+            buttons.Add(new CalculatorButton(1, 0, Key.NthRoot, "y√x\nShift+P"));
+            buttons.Add(new CalculatorButton(2, 0, Key.NthLog, "log_y(x)\nShift+A"));
+
             foreach (var i in buttons)
             {
                 i.Button = new ButtonNoEnter();
@@ -167,8 +171,11 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.OemQuestion, Key.Divide),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Q, Key.Inverse),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.W, Key.Square),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.O, Key.Power),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D1, Key.Sqrt),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.P, Key.NthRoot),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.E, Key.Log10),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.A, Key.NthLog),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.R, Key.Ln),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.T, Key.Exp),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D2, Key.PiConstant),
