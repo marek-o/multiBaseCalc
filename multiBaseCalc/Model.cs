@@ -296,11 +296,23 @@ namespace multiBaseCalc
             if (operation == Key.Divide) return lhs / rhs;
             if (operation == Key.Inverse) return 1.0 / lhs;
             if (operation == Key.Square) return lhs * lhs;
-            if (operation == Key.Power) return Math.Pow(lhs, rhs);
+            if (operation == Key.Power)
+            {
+                if (lhs == 0.0 && rhs == 0.0) return double.NaN;
+                return Math.Pow(lhs, rhs);
+            }
             if (operation == Key.Sqrt) return Math.Sqrt(lhs);
-            if (operation == Key.NthRoot) return Math.Pow(lhs, 1 / rhs);
+            if (operation == Key.NthRoot)
+            {
+                if (rhs == 0.0) return double.NaN;
+                return Math.Pow(lhs, 1 / rhs);
+            }
             if (operation == Key.Log10) return Math.Log10(lhs);
-            if (operation == Key.NthLog) return Math.Log(lhs) / Math.Log(rhs);
+            if (operation == Key.NthLog)
+            {
+                if (rhs <= 0.0 || rhs == 1.0) return double.NaN;
+                return Math.Log(lhs) / Math.Log(rhs);
+            }
             if (operation == Key.Ln) return Math.Log(lhs);
             if (operation == Key.Exp) return Math.Exp(lhs);
             if (operation == Key.PiConstant) return Math.PI;

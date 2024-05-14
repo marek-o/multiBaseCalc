@@ -139,8 +139,7 @@ namespace TestProject
             view.PressKey(Key.Power);
             view.PressKey("0");
             view.PressKey(Key.Equals);
-            //on maths lesson it was NaN, but library returns this...
-            Assert.AreEqual("1", view.numberText);
+            Assert.AreEqual("[NaN]", view.numberText);
 
             view.PressKey("4");
             view.PressKey(Key.Power);
@@ -216,7 +215,14 @@ namespace TestProject
             view.PressKey("4");
             view.PressKey(Key.NthRoot);
             view.PressKey("0=");
-            Assert.AreEqual("[+inf]", view.numberText);
+            Assert.AreEqual("[NaN]", view.numberText);
+
+            view.PressKey("16");
+            view.PressKey(Key.NthRoot);
+            view.PressKey("2");
+            view.PressKey(Key.Negate);
+            view.PressKey(Key.Equals);
+            Assert.AreEqual("0.25", view.numberText);
         }
 
         [Test]
@@ -279,14 +285,12 @@ namespace TestProject
             view.PressKey("1024");
             view.PressKey(Key.NthLog);
             view.PressKey("0=");
-            //??? should be NaN
-            Assert.AreEqual("0", view.numberText);
+            Assert.AreEqual("[NaN]", view.numberText);
 
             view.PressKey("1024");
             view.PressKey(Key.NthLog);
             view.PressKey("1=");
-            //NaN or +inf?
-            Assert.AreEqual("[+inf]", view.numberText);
+            Assert.AreEqual("[NaN]", view.numberText);
 
             view.PressKey("1024");
             view.PressKey(Key.NthLog);
