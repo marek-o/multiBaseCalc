@@ -53,6 +53,8 @@ namespace TestProject
                 new KeyValuePair<char, Key>('-', Key.Subtract),
                 new KeyValuePair<char, Key>('*', Key.Multiply),
                 new KeyValuePair<char, Key>('/', Key.Divide),
+                new KeyValuePair<char, Key>('(', Key.ParenOpen),
+                new KeyValuePair<char, Key>(')', Key.ParenClose),
             }
             );
 

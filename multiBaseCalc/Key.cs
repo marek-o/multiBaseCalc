@@ -13,6 +13,7 @@
         IncrementBase,
         DecrementBase,
         Base2, Base8, Base10, Base16,
+        ParenOpen, ParenClose,
         Add, Subtract, Multiply, Divide,
         Negate,
         Inverse, Square, Power,
