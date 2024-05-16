@@ -183,11 +183,10 @@ namespace multiBaseCalc
             {
                 if (operationStack.Any())
                 {
-                    if (state == CalculationState.EnteringSecond)
+                    if (state == CalculationState.Result)
                     {
-                        //2*(3+4)
-                        secondNumber = CommitEditedNumber();
-                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                        //2*()
+                        //or 2*(_123_) result could be from one argument operation
                     }
                     else if (state == CalculationState.EnteringFirst)
                     {
@@ -201,10 +200,11 @@ namespace multiBaseCalc
                         secondNumber = firstNumber;
                         firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                     }
-                    else if (state == CalculationState.Result)
+                    else if (state == CalculationState.EnteringSecond)
                     {
-                        //2*()
-                        //or 2*(_123_) result could be from one argument operation
+                        //2*(3+4)
+                        secondNumber = CommitEditedNumber();
+                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
                     }
 
                     DisplayResult();
