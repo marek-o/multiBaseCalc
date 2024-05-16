@@ -188,43 +188,11 @@ namespace multiBaseCalc
                         //2*(3+4)
                         secondNumber = CommitEditedNumber();
                         firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                        DisplayResult();
-
-                        editedNumber.Clear();
-                        editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
-                        var item = operationStack.Pop();
-                        if (item != null)
-                        {
-                            firstNumber = item.Item1;
-                            operation = item.Item2;
-                            state = CalculationState.EnteringSecond;
-                        }
-                        else
-                        {
-                            //(3+4)
-                            state = CalculationState.EnteringFirst;
-                        }
                     }
                     else if (state == CalculationState.EnteringFirst)
                     {
                         //2*(3)
                         firstNumber = CommitEditedNumber();
-                        DisplayResult();
-
-                        editedNumber.Clear();
-                        editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
-                        var item = operationStack.Pop();
-                        if (item != null)
-                        {
-                            firstNumber = item.Item1;
-                            operation = item.Item2;
-                            state = CalculationState.EnteringSecond;
-                        }
-                        else
-                        {
-                            //(3)
-                            state = CalculationState.EnteringFirst;
-                        }
                     }
                     else if (state == CalculationState.EnteringOperation)
                     {
@@ -232,42 +200,28 @@ namespace multiBaseCalc
                         //with itself
                         secondNumber = firstNumber;
                         firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                        DisplayResult();
-
-                        editedNumber.Clear();
-                        editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
-                        var item = operationStack.Pop();
-                        if (item != null)
-                        {
-                            firstNumber = item.Item1;
-                            operation = item.Item2;
-                            state = CalculationState.EnteringSecond;
-                        }
-                        else
-                        {
-                            //(3+)
-                            state = CalculationState.EnteringFirst;
-                        }
                     }
                     else if (state == CalculationState.Result)
                     {
                         //2*()
                         //or 2*(_123_) result could be from one argument operation
-                        editedNumber.Clear();
-                        editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
-                        
-                        var item = operationStack.Pop();
-                        if (item != null)
-                        {
-                            firstNumber = item.Item1;
-                            operation = item.Item2;
-                            state = CalculationState.EnteringSecond;
-                        }
-                        else
-                        {
-                            //()
-                            state = CalculationState.EnteringFirst;
-                        }
+                    }
+
+                    DisplayResult();
+
+                    editedNumber.Clear();
+                    editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
+
+                    var item = operationStack.Pop();
+                    if (item != null)
+                    {
+                        firstNumber = item.Item1;
+                        operation = item.Item2;
+                        state = CalculationState.EnteringSecond;
+                    }
+                    else
+                    {
+                        state = CalculationState.EnteringFirst;
                     }
                 }
             }
@@ -373,43 +327,11 @@ namespace multiBaseCalc
                         {   
                             //eg. during stack unwinding
                             //1+( _5_ =
-                            secondNumber = firstNumber;
-
-                            var item = operationStack.Pop();
-                            if (item != null)
-                            {
-                                firstNumber = item.Item1;
-                                operation = item.Item2;
-                                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                                state = CalculationState.Result;
-                            }
-                            else
-                            {
-                                //( _5_ =
-                                firstNumber = secondNumber;
-                                state = CalculationState.Result;
-                            }
                         }
                         else if (state == CalculationState.EnteringFirst)
                         {
                             // 1+(2+(3=
                             firstNumber = CommitEditedNumber();
-                            secondNumber = firstNumber;
-
-                            var item = operationStack.Pop();
-                            if (item != null)
-                            {
-                                firstNumber = item.Item1;
-                                operation = item.Item2;
-                                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                                state = CalculationState.Result;
-                            }
-                            else
-                            {
-                                //1+((3=
-                                firstNumber = secondNumber;
-                                state = CalculationState.Result;
-                            }
                         }
                         else if (state == CalculationState.EnteringOperation)
                         {
@@ -417,52 +339,35 @@ namespace multiBaseCalc
                             //do "with itself"
                             secondNumber = firstNumber;
                             firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                            secondNumber = firstNumber;
-
-                            var item = operationStack.Pop();
-                            if (item != null)
-                            {
-                                firstNumber = item.Item1;
-                                operation = item.Item2;
-                                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                                state = CalculationState.Result;
-                            }
-                            else
-                            {
-                                //1+((4+=
-                                firstNumber = secondNumber;
-                                state = CalculationState.Result;
-                            }
                         }
                         else if (state == CalculationState.EnteringSecond)
                         {
                             //1+(2+3=
                             secondNumber = CommitEditedNumber();
                             firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                            secondNumber = firstNumber;
-
-                            var item = operationStack.Pop();
-                            if (item != null)
-                            {
-                                firstNumber = item.Item1;
-                                operation = item.Item2;
-                                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                                state = CalculationState.Result;
-                            }
-                            else
-                            {
-                                //1+((2+3=
-                                firstNumber = secondNumber;
-                                state = CalculationState.Result;
-                            }
                         }
+
+                        secondNumber = firstNumber;
+
+                        var item = operationStack.Pop();
+                        if (item != null)
+                        {
+                            firstNumber = item.Item1;
+                            operation = item.Item2;
+                            firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                        }
+                        else
+                        {
+                            firstNumber = secondNumber;
+                        }
+
+                        state = CalculationState.Result;
                     }
 
                     DisplayResult();
                 }
                 else
                 {
-
                     if (state == CalculationState.Result)
                     {
                         //repeat
