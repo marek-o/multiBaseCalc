@@ -161,14 +161,19 @@ namespace multiBaseCalc
             {
                 if (state == CalculationState.EnteringOperation)
                 {
+                    //2*(
                     var item = new Tuple<double, Key>(firstNumber, operation);
                     operationStack.Push(item);
+                    firstNumber = 0.0;
                     state = CalculationState.Result;
                 }
                 else if (state == CalculationState.Result)
                 {
+                    //2*((
+                    //or 2*(_100_( FIXME after one argument operation this will be wrong
                     //only remember nesting
                     operationStack.Push(null);
+                    firstNumber = 0.0;
                     state = CalculationState.Result;
                 }
             }
@@ -246,9 +251,10 @@ namespace multiBaseCalc
                     else if (state == CalculationState.Result)
                     {
                         //2*()
+                        //or 2*(_123_) result could be from one argument operation
                         editedNumber.Clear();
-                        DisplayEditedNumber();
-
+                        editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
+                        
                         var item = operationStack.Pop();
                         if (item != null)
                         {

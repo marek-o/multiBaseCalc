@@ -169,10 +169,11 @@ namespace TestProject
             view.PressKey("28");
             view.PressKey(Key.Log10);
             Assert.AreEqual("2", view.numberText);
-            view.PressKey("-(100+(2+3)");
+            view.PressKey("-(100+((2+3)");
             Assert.AreEqual("5", view.numberText);
             view.PressKey(Key.Square);
             Assert.AreEqual("25", view.numberText);
+            view.PressKey(")");
             view.PressKey(Key.NthRoot);
             view.PressKey("3/");
             Assert.AreEqual("5", view.numberText);
