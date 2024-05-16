@@ -138,6 +138,7 @@ namespace multiBaseCalc
 
                 firstNumber = 0.0;
                 secondNumber = 0.0;
+                operationStack.Clear();
 
                 operation = Key.Add;
 

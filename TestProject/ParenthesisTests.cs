@@ -192,5 +192,49 @@ namespace TestProject
             view.PressKey("=");
             Assert.AreEqual("-512", view.numberText);
         }
+
+        [Test]
+        public void NestedWithConstants()
+        {
+            /*
+                  cos(pi/6) * 2 / sqrt(3)               1           1
+            ----------------------------------- = ------------- = ----- = 64
+               ln(e^(2*e)) / (128 * exp(1))       2*e / (128*e)   1/64
+             */
+            view.PressKey(Key.PiConstant);
+            view.PressKey("/6");
+            view.PressKey(Key.Cos);
+            view.PressKey("*2/(3");
+            view.PressKey(Key.Sqrt);
+            view.PressKey(")/");
+            Assert.AreEqual("1", view.numberText);
+            view.PressKey("((");
+            view.PressKey(Key.EConstant);
+            view.PressKey(Key.Power);
+            view.PressKey("(2*");
+            view.PressKey(Key.EConstant);
+            view.PressKey(")");
+            view.PressKey(Key.Ln);
+            view.PressKey(")");
+            Assert.IsTrue(view.numberText.StartsWith("5.436"));
+            view.PressKey("/(128*");
+            view.PressKey("(1");
+            view.PressKey(Key.Exp);
+            view.PressKey(")))");
+            Assert.AreEqual("0.015625", view.numberText);
+            view.PressKey("=");
+            Assert.IsTrue(view.numberText.StartsWith("63.999"));//precision issues
+        }
+
+        [Test]
+        public void ParensAndBaseChanging()
+        {
+            view.PressKey("123*(16");
+            view.PressKey(Key.Base2);
+            Assert.AreEqual("10000", view.numberText);
+            view.PressKey("-110)/101=");
+            view.PressKey(Key.Base10);
+            Assert.AreEqual("246", view.numberText);
+        }
     }
 }

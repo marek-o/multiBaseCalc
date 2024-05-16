@@ -24,9 +24,10 @@ todo:
 
 - float inaccuracy visible on higher bases
 //- 123 * PI is not intuitive
-- operations to add: 1/x, x^2, x^y, yroot(x), log10(x), ln(x), logy(x), sin, cos, tan, cot, (, ), e^x, +/-
+//- operations to add: 1/x, x^2, x^y, yroot(x), log10(x), ln(x), logy(x), sin, cos, tan, cot, (, ), e^x, +/-
 //- FIXME log10(negative) does nothing
 //- logy(x) i yroot(x), check domain and correctness of my calculation
 //- tests of new operations
 - copy / paste
 
+//- parens and base changning?
