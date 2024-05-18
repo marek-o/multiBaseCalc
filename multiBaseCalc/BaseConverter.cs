@@ -36,10 +36,10 @@ namespace multiBaseCalc
         public static long CharToInt(char k, int @base)
         {
             char kLower = char.ToLower(k);
-            var d = 0;
+            var d = -1;
 
-            if (kLower <= '9') d = kLower - '0';
-            else d = kLower - 'a' + 10;
+            if (kLower >= '0' && kLower <= '9') d = kLower - '0';
+            else if (kLower >= 'a' && kLower <= 'z') d = kLower - 'a' + 10;
 
             if (d >= 0 && d < @base)
             {
