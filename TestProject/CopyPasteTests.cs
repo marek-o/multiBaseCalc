@@ -69,6 +69,7 @@ namespace TestProject
             view.PressKey(Key.Copy);
             Assert.AreEqual("0.456", view.clipboard);
 
+            view.PressKey(Key.Escape);
             view.PressKey(".456");
             view.PressKey(Key.Copy);
             Assert.AreEqual("0.456", view.clipboard);

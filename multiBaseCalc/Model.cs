@@ -45,6 +45,50 @@ namespace multiBaseCalc
 
         private void View_KeyPressed(Key k)
         {
+            if (k == Key.Copy)
+            {
+                var str = "";
+                if (state == CalculationState.Result)
+                {
+                    str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
+                }
+                else if (state == CalculationState.EnteringFirst)
+                {
+                    str = EditedNumberToDisplayable();
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    str = EditedNumberToDisplayable();
+                }
+                view.SetClipboard(str);
+            }
+
+            if (k == Key.Paste)
+            {
+                var clip = view.GetClipboard();
+                if (clip != null)
+                {
+                    if (state == CalculationState.Result)
+                    {
+                        state = CalculationState.EnteringFirst;
+                    }
+                    else if (state == CalculationState.EnteringOperation)
+                    {
+                        state = CalculationState.EnteringSecond;
+                    }
+
+                    clip = SanitizeClipboard(clip);
+                    clip = DisplayableToEditedNumber(clip);
+                    editedNumber.Clear();
+                    editedNumber.Append(clip);
+                    DisplayEditedNumber();
+                }
+            }
+
             if ((k == Key.DecrementBase
                 || k == Key.IncrementBase
                 || k == Key.Base2
@@ -153,6 +197,10 @@ namespace multiBaseCalc
                     if (editedNumber.Length >= 1)
                     {
                         editedNumber.Remove(editedNumber.Length - 1, 1);
+                    }
+                    if (editedNumber.ToString() == "-")
+                    {
+                        editedNumber.Clear();
                     }
                     DisplayEditedNumber();
                 }
@@ -402,6 +450,30 @@ namespace multiBaseCalc
             //    state == CalculationState.EnteringSecond ? ">" : "", secondNumber);
         }
 
+        private string SanitizeClipboard(string s)
+        {
+            var sb = new StringBuilder();
+            bool firstPeriod = true;
+            for (int i = 0; i < s.Length; ++i)
+            {
+                if (BaseConverter.CharToInt(s[i], @base) != -1)
+                {
+                    sb.Append(char.ToLower(s[i]));
+                }
+                else if ((s[i] == ',' || s[i] == '.') && firstPeriod)
+                {
+                    sb.Append('.');
+                    firstPeriod = false;
+                }
+                else if (s[i] == '-' && sb.Length == 0)
+                {
+                    sb.Append('-');
+                }
+            }
+
+            return sb.ToString();
+        }
+
         private double CommitEditedNumber()
         {
             double res = BaseConverter.StringToDouble(editedNumber.ToString(), @base);
@@ -456,24 +528,45 @@ namespace multiBaseCalc
                 SeparatorGroupSize());
         }
 
-        private void DisplayEditedNumber()
+        private string EditedNumberToDisplayable()
         {
             if (editedNumber.Length == 0)
             {
-                view.SetNumber("0", SeparatorGroupSize());
+                return "0";
             }
             else if (editedNumber[0] == '.')
             {
-                view.SetNumber("0" + editedNumber.ToString(), SeparatorGroupSize());
+                return "0" + editedNumber.ToString();
             }
             else if (editedNumber[0] == '-' && editedNumber[1] == '.')
             {
-                view.SetNumber("-0" + editedNumber.ToString().Substring(1), SeparatorGroupSize());
+                return "-0" + editedNumber.ToString().Substring(1);
             }
             else
             {
-                view.SetNumber(editedNumber.ToString(), SeparatorGroupSize());
+                return editedNumber.ToString();
             }
+        }
+
+        private string DisplayableToEditedNumber(string s)
+        {
+            s = s.TrimStart('0');
+
+            if (s.StartsWith("-"))
+            {
+                s = "-" + s.Substring(1).TrimStart('0');
+                if (s == "-")
+                {
+                    return "";
+                }
+            }
+
+            return s;
+        }
+
+        private void DisplayEditedNumber()
+        {
+            view.SetNumber(EditedNumberToDisplayable(), SeparatorGroupSize());
         }
 
         private void UpdateBaseLabel()
