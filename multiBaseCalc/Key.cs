@@ -10,6 +10,8 @@
         Backspace,
         Escape,
         Equals,
+        Copy,
+        Paste,
         IncrementBase,
         DecrementBase,
         Base2, Base8, Base10, Base16,

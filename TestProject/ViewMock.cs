@@ -99,7 +99,18 @@ namespace TestProject
             numberText = s;
         }
 
+        public void SetClipboard(string s)
+        {
+            clipboard = s;
+        }
+
+        public string GetClipboard()
+        {
+            return clipboard;
+        }
+
         public string baseLabelText = "";
         public string numberText = "";
+        public string clipboard = "";
     }
 }

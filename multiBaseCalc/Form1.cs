@@ -15,6 +15,8 @@ namespace multiBaseCalc
         public void SetNumber(string s, int separatorGroupSize);
         public void SetBaseLabel(string s);
         public event Action<Key> KeyPressed;
+        public void SetClipboard(string s);
+        public string GetClipboard();
     }
 
     public partial class Form1 : Form, IView
@@ -120,6 +122,21 @@ namespace multiBaseCalc
             }
         }
 
+        public void SetClipboard(string s)
+        {
+            Clipboard.SetText(s);
+        }
+
+        public string GetClipboard()
+        {
+            if (Clipboard.ContainsText())
+            {
+                return Clipboard.GetText();
+            }
+
+            return null;
+        }
+
         public static Dictionary<Keys, Key> InputKeyToKey = new Dictionary<Keys, Key>(
             new KeyValuePair<Keys, Key>[]{
                 new KeyValuePair<Keys, Key>(Keys.D0, Key.D0),
@@ -164,6 +181,8 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.Escape, Key.Escape),
                 new KeyValuePair<Keys, Key>(Keys.Oemplus, Key.Equals),
                 new KeyValuePair<Keys, Key>(Keys.Enter, Key.Equals),
+                new KeyValuePair<Keys, Key>(Keys.Control | Keys.C, Key.Copy),
+                new KeyValuePair<Keys, Key>(Keys.Control | Keys.V, Key.Paste),
                 new KeyValuePair<Keys, Key>(Keys.OemOpenBrackets, Key.DecrementBase),
                 new KeyValuePair<Keys, Key>(Keys.OemCloseBrackets, Key.IncrementBase),
                 new KeyValuePair<Keys, Key>(Keys.F5, Key.Base2),

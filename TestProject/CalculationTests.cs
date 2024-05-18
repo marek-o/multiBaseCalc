@@ -270,5 +270,17 @@ namespace TestProject
 
             Assert.AreEqual("103.14159265359", view.numberText);
         }
+
+        [Test]
+        public void Editing_Crash()
+        {
+            view.PressKey(".111");
+            view.PressKey(Key.Negate);
+            view.PressKey(Key.Backspace);
+            view.PressKey(Key.Backspace);
+            view.PressKey(Key.Backspace);
+            view.PressKey(Key.Backspace);
+            Assert.True(true);
+        }
     }
 }
