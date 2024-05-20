@@ -39,46 +39,46 @@ namespace multiBaseCalc
 
             buttons.Add(new CalculatorButton(0, 0, Key.ParenOpen, "("));
             buttons.Add(new CalculatorButton(1, 0, Key.ParenClose, ")"));
-            buttons.Add(new CalculatorButton(2, 0, Key.Negate, "+/-\nShift+S"));
+            buttons.Add(new CalculatorButton(2, 0, Key.Negate, "+/-\nF3"));
             buttons.Add(new CalculatorButton(3, 0, Key.DecrementBase, "base↓\n["));
             buttons.Add(new CalculatorButton(4, 0, Key.IncrementBase, "base↑\n]"));
             buttons.Add(new CalculatorButton(5, 0, Key.Escape, "C"));
             buttons.Add(new CalculatorButton(6, 0, Key.Backspace, "⌫"));
 
-            buttons.Add(new CalculatorButton(0, 1, Key.Sin, "sin\nShift+Y"));
-            buttons.Add(new CalculatorButton(1, 1, Key.Cos, "cos\nShift+U"));
-            buttons.Add(new CalculatorButton(2, 1, Key.Tan, "tan\nShift+I"));
+            buttons.Add(new CalculatorButton(0, 1, Key.Sin, "sin\nShift+1"));
+            buttons.Add(new CalculatorButton(1, 1, Key.Cos, "cos\nShift+2"));
+            buttons.Add(new CalculatorButton(2, 1, Key.Tan, "tan\nShift+3"));
             buttons.Add(new CalculatorButton(3, 1, Key.Base2, "BIN\nF5"));
             buttons.Add(new CalculatorButton(4, 1, Key.Base8, "OCT\nF6"));
             buttons.Add(new CalculatorButton(5, 1, Key.Base10, "DEC\nF7"));
             buttons.Add(new CalculatorButton(6, 1, Key.Base16, "HEX\nF8"));
 
-            buttons.Add(new CalculatorButton(0, 2, Key.Square, "x^2\nShift+W"));
-            buttons.Add(new CalculatorButton(1, 2, Key.Exp, "e^x\nShift+T"));
-            buttons.Add(new CalculatorButton(2, 2, Key.Power, "x^y\nShift+O"));
+            buttons.Add(new CalculatorButton(0, 2, Key.Square, "x^2\nShift+Q"));
+            buttons.Add(new CalculatorButton(1, 2, Key.Exp, "e^x\nShift+W"));
+            buttons.Add(new CalculatorButton(2, 2, Key.Power, "x^y\nShift+E"));
             buttons.Add(new CalculatorButton(3, 2, Key.D7, "7"));
             buttons.Add(new CalculatorButton(4, 2, Key.D8, "8"));
             buttons.Add(new CalculatorButton(5, 2, Key.D9, "9"));
             buttons.Add(new CalculatorButton(6, 2, Key.Divide, "/"));
 
-            buttons.Add(new CalculatorButton(0, 3, Key.Sqrt, "√\nShift+1"));
-            buttons.Add(new CalculatorButton(1, 3, Key.Ln, "ln(x)\nShift+R"));
-            buttons.Add(new CalculatorButton(2, 3, Key.NthLog, "log_y(x)\nShift+A"));
+            buttons.Add(new CalculatorButton(0, 3, Key.Sqrt, "√\nShift+A"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Ln, "ln(x)\nShift+S"));
+            buttons.Add(new CalculatorButton(2, 3, Key.NthLog, "log_y(x)\nShift+D"));
             buttons.Add(new CalculatorButton(3, 3, Key.D4, "4"));
             buttons.Add(new CalculatorButton(4, 3, Key.D5, "5"));
             buttons.Add(new CalculatorButton(5, 3, Key.D6, "6"));
             buttons.Add(new CalculatorButton(6, 3, Key.Multiply, "*"));
 
-            buttons.Add(new CalculatorButton(0, 4, Key.NthRoot, "y√x\nShift+P"));
-            buttons.Add(new CalculatorButton(1, 4, Key.Log10, "log10(x)\nShift+E"));
-            buttons.Add(new CalculatorButton(2, 4, Key.Inverse, "1/x\nShift+Q"));
+            buttons.Add(new CalculatorButton(0, 4, Key.NthRoot, "y√x\nShift+Z"));
+            buttons.Add(new CalculatorButton(1, 4, Key.Log10, "log10(x)\nShift+X"));
+            buttons.Add(new CalculatorButton(2, 4, Key.Inverse, "1/x\nShift+C"));
             buttons.Add(new CalculatorButton(3, 4, Key.D1, "1"));
             buttons.Add(new CalculatorButton(4, 4, Key.D2, "2"));
             buttons.Add(new CalculatorButton(5, 4, Key.D3, "3"));
             buttons.Add(new CalculatorButton(6, 4, Key.Subtract, "-"));
 
-            buttons.Add(new CalculatorButton(1, 5, Key.PiConstant, "π\nShift+2"));
-            buttons.Add(new CalculatorButton(2, 5, Key.EConstant, "e\nShift+3"));
+            buttons.Add(new CalculatorButton(1, 5, Key.PiConstant, "π\nShift+P"));
+            buttons.Add(new CalculatorButton(2, 5, Key.EConstant, "e\nShift+O"));
             buttons.Add(new CalculatorButton(3, 5, Key.D0, "0"));
             buttons.Add(new CalculatorButton(4, 5, Key.Period, "."));
             buttons.Add(new CalculatorButton(5, 5, Key.Equals, "="));
@@ -233,21 +233,21 @@ namespace multiBaseCalc
                 new KeyValuePair<Keys, Key>(Keys.OemMinus, Key.Subtract),
                 new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D8, Key.Multiply),
                 new KeyValuePair<Keys, Key>(Keys.OemQuestion, Key.Divide),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.S, Key.Negate),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Q, Key.Inverse),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.W, Key.Square),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.O, Key.Power),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D1, Key.Sqrt),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.P, Key.NthRoot),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.E, Key.Log10),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.A, Key.NthLog),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.R, Key.Ln),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.T, Key.Exp),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D2, Key.PiConstant),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D3, Key.EConstant),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Y, Key.Sin),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.U, Key.Cos),
-                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.I, Key.Tan),
+                new KeyValuePair<Keys, Key>(Keys.F3, Key.Negate),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.C, Key.Inverse),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Q, Key.Square),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.E, Key.Power),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.A, Key.Sqrt),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.Z, Key.NthRoot),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.X, Key.Log10),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D, Key.NthLog),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.S, Key.Ln),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.W, Key.Exp),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.P, Key.PiConstant),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.O, Key.EConstant),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D1, Key.Sin),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D2, Key.Cos),
+                new KeyValuePair<Keys, Key>(Keys.Shift | Keys.D3, Key.Tan),
             }
             );
     }
