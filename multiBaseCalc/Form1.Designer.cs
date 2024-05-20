@@ -49,7 +49,6 @@ namespace multiBaseCalc
             labelBase.Location = new System.Drawing.Point(520, 190);
             labelBase.Name = "labelBase";
             labelBase.Size = new System.Drawing.Size(38, 15);
-            labelBase.TabIndex = 1;
             labelBase.Text = "label2";
             labelBase.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 

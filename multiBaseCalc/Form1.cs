@@ -37,56 +37,52 @@ namespace multiBaseCalc
 
             relativeDpi = DeviceDpi / 96.0f;
 
-            buttons.Add(new CalculatorButton(3, 2, Key.D7, "7"));
-            buttons.Add(new CalculatorButton(4, 2, Key.D8, "8"));
-            buttons.Add(new CalculatorButton(5, 2, Key.D9, "9"));
-            buttons.Add(new CalculatorButton(3, 3, Key.D4, "4"));
-            buttons.Add(new CalculatorButton(4, 3, Key.D5, "5"));
-            buttons.Add(new CalculatorButton(5, 3, Key.D6, "6"));
-            buttons.Add(new CalculatorButton(3, 4, Key.D1, "1"));
-            buttons.Add(new CalculatorButton(4, 4, Key.D2, "2"));
-            buttons.Add(new CalculatorButton(5, 4, Key.D3, "3"));
-            buttons.Add(new CalculatorButton(3, 5, Key.D0, "0"));
-            buttons.Add(new CalculatorButton(4, 5, Key.Period, "."));
-            buttons.Add(new CalculatorButton(5, 5, Key.Equals, "="));
-
-            buttons.Add(new CalculatorButton(6, 2, Key.Divide, "/"));
-            buttons.Add(new CalculatorButton(6, 3, Key.Multiply, "*"));
-            buttons.Add(new CalculatorButton(6, 4, Key.Subtract, "-"));
-            buttons.Add(new CalculatorButton(6, 5, Key.Add, "+"));
-
+            buttons.Add(new CalculatorButton(0, 0, Key.ParenOpen, "("));
+            buttons.Add(new CalculatorButton(1, 0, Key.ParenClose, ")"));
+            buttons.Add(new CalculatorButton(2, 0, Key.Negate, "+/-\nShift+S"));
+            buttons.Add(new CalculatorButton(3, 0, Key.DecrementBase, "base↓\n["));
+            buttons.Add(new CalculatorButton(4, 0, Key.IncrementBase, "base↑\n]"));
             buttons.Add(new CalculatorButton(5, 0, Key.Escape, "C"));
             buttons.Add(new CalculatorButton(6, 0, Key.Backspace, "⌫"));
 
-            buttons.Add(new CalculatorButton(1, 1, Key.Base2, "BIN\nF5"));
-            buttons.Add(new CalculatorButton(2, 1, Key.Base8, "OCT\nF6"));
-            buttons.Add(new CalculatorButton(3, 1, Key.Base10, "DEC\nF7"));
-            buttons.Add(new CalculatorButton(4, 1, Key.Base16, "HEX\nF8"));
-            buttons.Add(new CalculatorButton(5, 1, Key.DecrementBase, "base↓\n["));
-            buttons.Add(new CalculatorButton(6, 1, Key.IncrementBase, "base↑\n]"));
+            buttons.Add(new CalculatorButton(0, 1, Key.Sin, "sin\nShift+Y"));
+            buttons.Add(new CalculatorButton(1, 1, Key.Cos, "cos\nShift+U"));
+            buttons.Add(new CalculatorButton(2, 1, Key.Tan, "tan\nShift+I"));
+            buttons.Add(new CalculatorButton(3, 1, Key.Base2, "BIN\nF5"));
+            buttons.Add(new CalculatorButton(4, 1, Key.Base8, "OCT\nF6"));
+            buttons.Add(new CalculatorButton(5, 1, Key.Base10, "DEC\nF7"));
+            buttons.Add(new CalculatorButton(6, 1, Key.Base16, "HEX\nF8"));
 
-            buttons.Add(new CalculatorButton(0, 2, Key.Inverse, "1/x\nShift+Q"));
-            buttons.Add(new CalculatorButton(0, 3, Key.Square, "x^2\nShift+W"));
-            buttons.Add(new CalculatorButton(0, 4, Key.Log10, "log10(x)\nShift+E"));
-            buttons.Add(new CalculatorButton(0, 5, Key.Ln, "ln(x)\nShift+R"));
-
+            buttons.Add(new CalculatorButton(0, 2, Key.Square, "x^2\nShift+W"));
             buttons.Add(new CalculatorButton(1, 2, Key.Exp, "e^x\nShift+T"));
-            buttons.Add(new CalculatorButton(1, 3, Key.Sin, "sin\nShift+Y"));
-            buttons.Add(new CalculatorButton(1, 4, Key.Cos, "cos\nShift+U"));
-            buttons.Add(new CalculatorButton(1, 5, Key.Tan, "tan\nShift+I"));
+            buttons.Add(new CalculatorButton(2, 2, Key.Power, "x^y\nShift+O"));
+            buttons.Add(new CalculatorButton(3, 2, Key.D7, "7"));
+            buttons.Add(new CalculatorButton(4, 2, Key.D8, "8"));
+            buttons.Add(new CalculatorButton(5, 2, Key.D9, "9"));
+            buttons.Add(new CalculatorButton(6, 2, Key.Divide, "/"));
 
-            buttons.Add(new CalculatorButton(2, 2, Key.Sqrt, "√\nShift+1"));
-            buttons.Add(new CalculatorButton(2, 3, Key.PiConstant, "π\nShift+2"));
-            buttons.Add(new CalculatorButton(2, 4, Key.EConstant, "e\nShift+3"));
+            buttons.Add(new CalculatorButton(0, 3, Key.Sqrt, "√\nShift+1"));
+            buttons.Add(new CalculatorButton(1, 3, Key.Ln, "ln(x)\nShift+R"));
+            buttons.Add(new CalculatorButton(2, 3, Key.NthLog, "log_y(x)\nShift+A"));
+            buttons.Add(new CalculatorButton(3, 3, Key.D4, "4"));
+            buttons.Add(new CalculatorButton(4, 3, Key.D5, "5"));
+            buttons.Add(new CalculatorButton(5, 3, Key.D6, "6"));
+            buttons.Add(new CalculatorButton(6, 3, Key.Multiply, "*"));
 
-            buttons.Add(new CalculatorButton(0, 0, Key.Power, "x^y\nShift+O"));
-            buttons.Add(new CalculatorButton(1, 0, Key.NthRoot, "y√x\nShift+P"));
-            buttons.Add(new CalculatorButton(0, 1, Key.NthLog, "log_y(x)\nShift+A"));
+            buttons.Add(new CalculatorButton(0, 4, Key.NthRoot, "y√x\nShift+P"));
+            buttons.Add(new CalculatorButton(1, 4, Key.Log10, "log10(x)\nShift+E"));
+            buttons.Add(new CalculatorButton(2, 4, Key.Inverse, "1/x\nShift+Q"));
+            buttons.Add(new CalculatorButton(3, 4, Key.D1, "1"));
+            buttons.Add(new CalculatorButton(4, 4, Key.D2, "2"));
+            buttons.Add(new CalculatorButton(5, 4, Key.D3, "3"));
+            buttons.Add(new CalculatorButton(6, 4, Key.Subtract, "-"));
 
-            buttons.Add(new CalculatorButton(4, 0, Key.Negate, "+/-\nShift+S"));
-
-            buttons.Add(new CalculatorButton(2, 0, Key.ParenOpen, "("));
-            buttons.Add(new CalculatorButton(3, 0, Key.ParenClose, ")"));
+            buttons.Add(new CalculatorButton(1, 5, Key.PiConstant, "π\nShift+2"));
+            buttons.Add(new CalculatorButton(2, 5, Key.EConstant, "e\nShift+3"));
+            buttons.Add(new CalculatorButton(3, 5, Key.D0, "0"));
+            buttons.Add(new CalculatorButton(4, 5, Key.Period, "."));
+            buttons.Add(new CalculatorButton(5, 5, Key.Equals, "="));
+            buttons.Add(new CalculatorButton(6, 5, Key.Add, "+"));
 
             foreach (var i in buttons)
             {
@@ -97,6 +93,7 @@ namespace multiBaseCalc
                 i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);
                 i.Button.X = i.X;
                 i.Button.Y = i.Y;
+                i.Button.TabIndex = 10 + i.X + i.Y * 10;
 
                 i.Button.Text = i.Text;
                 i.Button.KeyDown += Form1_KeyDown;
