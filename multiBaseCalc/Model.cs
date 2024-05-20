@@ -43,50 +43,389 @@ namespace multiBaseCalc
             UpdateBaseLabel();
         }
 
+        private void HandleCopy()
+        {
+            var str = "";
+            if (state == CalculationState.Result)
+            {
+                str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
+            }
+            else if (state == CalculationState.EnteringFirst)
+            {
+                str = EditedNumberToDisplayable();
+            }
+            else if (state == CalculationState.EnteringOperation)
+            {
+                str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
+            }
+            else if (state == CalculationState.EnteringSecond)
+            {
+                str = EditedNumberToDisplayable();
+            }
+            view.SetClipboard(str);
+        }
+
+        private void HandlePaste()
+        {
+            var clip = view.GetClipboard();
+            if (clip != null)
+            {
+                if (state == CalculationState.Result)
+                {
+                    state = CalculationState.EnteringFirst;
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    state = CalculationState.EnteringSecond;
+                }
+
+                clip = SanitizeClipboard(clip);
+                clip = DisplayableToEditedNumber(clip);
+                editedNumber.Clear();
+                editedNumber.Append(clip);
+                DisplayEditedNumber();
+            }
+        }
+
+        private void HandleBaseChange(Key k)
+        {
+            if (state == CalculationState.EnteringFirst)
+            {
+                firstNumber = CommitEditedNumber();
+                state = CalculationState.Result;
+            }
+
+            switch (k)
+            {
+                case Key.IncrementBase:
+                    @base = Math.Max(2, Math.Min(36, @base + 1)); break;
+                case Key.DecrementBase:
+                    @base = Math.Max(2, Math.Min(36, @base - 1)); break;
+                case Key.Base2: @base = 2; break;
+                case Key.Base8: @base = 8; break;
+                case Key.Base10: @base = 10; break;
+                case Key.Base16: @base = 16; break;
+            }
+
+            UpdateBaseLabel();
+            DisplayResult();
+        }
+
+        private void HandleEnterDigit(Key k)
+        {
+            char ch = BaseConverter.KeyToChar(k, @base);
+            if (ch != '\0')
+            {
+                if (state == CalculationState.Result)
+                {
+                    state = CalculationState.EnteringFirst;
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    state = CalculationState.EnteringSecond;
+                }
+
+                string editedNumberStr = editedNumber.ToString();
+                int editedDigitCount = editedNumberStr.Length;
+                if (editedNumberStr.Contains('.')) //FIXME DRY
+                {
+                    editedDigitCount--;
+
+                    if (editedNumberStr.StartsWith('.'))
+                    {
+                        //add implied "0"
+                        editedDigitCount++;
+                    }
+                }
+
+                if ((k != Key.D0 || editedNumber.Length > 0)
+                    && editedDigitCount < maxNumberOfDigits)
+                {
+                    editedNumber.Append(ch);
+                }
+                DisplayEditedNumber();
+            }
+        }
+
+        private void HandlePeriod()
+        {
+            if (!editedNumber.ToString().Any(i => i == '.' || i == ','))
+            {
+                if (state == CalculationState.Result)
+                {
+                    state = CalculationState.EnteringFirst;
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    state = CalculationState.EnteringSecond;
+                }
+
+                editedNumber.Append('.');
+                DisplayEditedNumber();
+            }
+        }
+
+        private void HandleEscape()
+        {
+            editedNumber.Clear();
+            DisplayEditedNumber();
+
+            firstNumber = 0.0;
+            secondNumber = 0.0;
+            operationStack.Clear();
+
+            operation = Key.Add;
+
+            state = CalculationState.Result;
+        }
+
+        private void HandleBackspace()
+        {
+            if (state == CalculationState.EnteringFirst
+                || state == CalculationState.EnteringSecond)
+            {
+                if (editedNumber.Length >= 1)
+                {
+                    editedNumber.Remove(editedNumber.Length - 1, 1);
+                }
+                if (editedNumber.ToString() == "-")
+                {
+                    editedNumber.Clear();
+                }
+                DisplayEditedNumber();
+            }
+        }
+
+        private void HandleParenOpen()
+        {
+            if (state == CalculationState.EnteringOperation)
+            {
+                //2*(
+                var item = new Tuple<double, Key>(firstNumber, operation);
+                operationStack.Push(item);
+                firstNumber = 0.0;
+                state = CalculationState.Result;
+            }
+            else if (state == CalculationState.Result)
+            {
+                //2*((
+                //or 2*(_100_( FIXME after one argument operation this will be wrong
+                //only remember nesting
+                operationStack.Push(null);
+                firstNumber = 0.0;
+                state = CalculationState.Result;
+            }
+        }
+
+        private void HandleParenClose()
+        {
+            if (operationStack.Any())
+            {
+                if (state == CalculationState.Result)
+                {
+                    //2*()
+                    //or 2*(_123_) result could be from one argument operation
+                }
+                else if (state == CalculationState.EnteringFirst)
+                {
+                    //2*(3)
+                    firstNumber = CommitEditedNumber();
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    //2*(3+)
+                    //with itself
+                    secondNumber = firstNumber;
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    //2*(3+4)
+                    secondNumber = CommitEditedNumber();
+                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                }
+
+                DisplayResult();
+
+                editedNumber.Clear();
+                editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
+
+                var item = operationStack.Pop();
+                if (item != null)
+                {
+                    firstNumber = item.Item1;
+                    operation = item.Item2;
+                    state = CalculationState.EnteringSecond;
+                }
+                else
+                {
+                    state = CalculationState.EnteringFirst;
+                }
+            }
+        }
+
+        private void HandleTwoArgumentOperation(Key k)
+        {
+            if (state == CalculationState.EnteringFirst)
+            {
+                firstNumber = CommitEditedNumber();
+            }
+            else if (state == CalculationState.EnteringSecond)
+            {
+                secondNumber = CommitEditedNumber();
+
+                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                DisplayResult();
+            }
+
+            state = CalculationState.EnteringOperation;
+            operation = k;
+        }
+
+        private void HandleOneArgumentOperation(Key k)
+        {
+            if (state == CalculationState.EnteringFirst)
+            {
+                firstNumber = CommitEditedNumber();
+            }
+            else if (state == CalculationState.EnteringSecond)
+            {
+                secondNumber = CommitEditedNumber();
+
+                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+            }
+
+            firstNumber = PerformOperation(k, firstNumber, 0.0);
+            DisplayResult();
+
+            state = CalculationState.Result;
+        }
+
+        private void HandleZeroArgumentOperation(Key k)
+        {
+            if (state == CalculationState.Result)
+            {
+                state = CalculationState.EnteringFirst;
+            }
+            else if (state == CalculationState.EnteringOperation)
+            {
+                state = CalculationState.EnteringSecond;
+            }
+
+            editedNumber.Clear();
+            editedNumber.Append(BaseConverter.DoubleToString(PerformOperation(k, 0.0, 0.0), @base, maxNumberOfDigits));
+            DisplayEditedNumber();
+        }
+
+        private void HandleNegate()
+        {
+            if (state == CalculationState.EnteringFirst
+                || state == CalculationState.EnteringSecond)
+            {
+                if (editedNumber[0] == '-')
+                {
+                    editedNumber.Remove(0, 1);
+                }
+                else
+                {
+                    editedNumber.Insert(0, '-');
+                }
+                DisplayEditedNumber();
+            }
+            else if (state == CalculationState.Result)
+            {
+                firstNumber = -firstNumber;
+                DisplayResult();
+            }
+        }
+
+        private void HandleEquals()
+        {
+            if (operationStack.Any())
+            {
+                while (operationStack.Any())
+                {
+                    if (state == CalculationState.Result)
+                    {
+                        //eg. during stack unwinding
+                        //1+( _5_ =
+                    }
+                    else if (state == CalculationState.EnteringFirst)
+                    {
+                        // 1+(2+(3=
+                        firstNumber = CommitEditedNumber();
+                    }
+                    else if (state == CalculationState.EnteringOperation)
+                    {
+                        //1+(2+=
+                        //do "with itself"
+                        secondNumber = firstNumber;
+                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                    }
+                    else if (state == CalculationState.EnteringSecond)
+                    {
+                        //1+(2+3=
+                        secondNumber = CommitEditedNumber();
+                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                    }
+
+                    secondNumber = firstNumber;
+
+                    var item = operationStack.Pop();
+                    if (item != null)
+                    {
+                        firstNumber = item.Item1;
+                        operation = item.Item2;
+                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                    }
+                    else
+                    {
+                        firstNumber = secondNumber;
+                    }
+
+                    state = CalculationState.Result;
+                }
+
+                DisplayResult();
+            }
+            else
+            {
+                if (state == CalculationState.Result)
+                {
+                    //repeat
+                }
+                else if (state == CalculationState.EnteringFirst)
+                {
+                    //variant
+                    firstNumber = CommitEditedNumber();
+                }
+                else if (state == CalculationState.EnteringOperation)
+                {
+                    //with itself
+                    secondNumber = firstNumber;
+                }
+                else if (state == CalculationState.EnteringSecond)
+                {
+                    //normal calculation
+                    secondNumber = CommitEditedNumber();
+                }
+
+                firstNumber = PerformOperation(operation, firstNumber, secondNumber);
+                DisplayResult();
+                state = CalculationState.Result;
+            }
+        }
+
         private void View_KeyPressed(Key k)
         {
             if (k == Key.Copy)
             {
-                var str = "";
-                if (state == CalculationState.Result)
-                {
-                    str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
-                }
-                else if (state == CalculationState.EnteringFirst)
-                {
-                    str = EditedNumberToDisplayable();
-                }
-                else if (state == CalculationState.EnteringOperation)
-                {
-                    str = BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits);
-                }
-                else if (state == CalculationState.EnteringSecond)
-                {
-                    str = EditedNumberToDisplayable();
-                }
-                view.SetClipboard(str);
+                HandleCopy();
             }
 
             if (k == Key.Paste)
             {
-                var clip = view.GetClipboard();
-                if (clip != null)
-                {
-                    if (state == CalculationState.Result)
-                    {
-                        state = CalculationState.EnteringFirst;
-                    }
-                    else if (state == CalculationState.EnteringOperation)
-                    {
-                        state = CalculationState.EnteringSecond;
-                    }
-
-                    clip = SanitizeClipboard(clip);
-                    clip = DisplayableToEditedNumber(clip);
-                    editedNumber.Clear();
-                    editedNumber.Append(clip);
-                    DisplayEditedNumber();
-                }
+                HandlePaste();
             }
 
             if ((k == Key.DecrementBase
@@ -99,179 +438,37 @@ namespace multiBaseCalc
                   (state == CalculationState.Result
                 || state == CalculationState.EnteringFirst))
             {
-                if (state == CalculationState.EnteringFirst)
-                {
-                    firstNumber = CommitEditedNumber();
-                    state = CalculationState.Result;
-                }
-
-                switch (k)
-                {
-                    case Key.IncrementBase:
-                        @base = Math.Max(2, Math.Min(36, @base + 1)); break;
-                    case Key.DecrementBase:
-                        @base = Math.Max(2, Math.Min(36, @base - 1)); break;
-                    case Key.Base2: @base = 2; break;
-                    case Key.Base8: @base = 8; break;
-                    case Key.Base10: @base = 10; break;
-                    case Key.Base16: @base = 16; break;
-                }
-
-                UpdateBaseLabel();
-                DisplayResult();
+                HandleBaseChange(k);
             }
 
             if (k >= Key.D0 && k <= Key.Z)
             {
-                char ch = BaseConverter.KeyToChar(k, @base);
-                if (ch != '\0')
-                {
-                    if (state == CalculationState.Result)
-                    {
-                        state = CalculationState.EnteringFirst;
-                    }
-                    else if (state == CalculationState.EnteringOperation)
-                    {
-                        state = CalculationState.EnteringSecond;
-                    }
-
-                    string editedNumberStr = editedNumber.ToString();
-                    int editedDigitCount = editedNumberStr.Length;
-                    if (editedNumberStr.Contains('.')) //FIXME DRY
-                    {
-                        editedDigitCount--;
-
-                        if (editedNumberStr.StartsWith('.'))
-                        {
-                            //add implied "0"
-                            editedDigitCount++;
-                        }
-                    }
-
-                    if ((k != Key.D0 || editedNumber.Length > 0)
-                        && editedDigitCount < maxNumberOfDigits)
-                    {
-                        editedNumber.Append(ch);
-                    }
-                    DisplayEditedNumber();
-                }
+                HandleEnterDigit(k);
             }
 
             if (k == Key.Period)
             {
-                if (!editedNumber.ToString().Any(i => i == '.' || i == ','))
-                {
-                    if (state == CalculationState.Result)
-                    {
-                        state = CalculationState.EnteringFirst;
-                    }
-                    else if (state == CalculationState.EnteringOperation)
-                    {
-                        state = CalculationState.EnteringSecond;
-                    }
-
-                    editedNumber.Append('.');
-                    DisplayEditedNumber();
-                }
+                HandlePeriod();
             }
 
             if (k == Key.Escape)
             {
-                editedNumber.Clear();
-                DisplayEditedNumber();
-
-                firstNumber = 0.0;
-                secondNumber = 0.0;
-                operationStack.Clear();
-
-                operation = Key.Add;
-
-                state = CalculationState.Result;
+                HandleEscape();
             }
 
             if (k == Key.Backspace)
             {
-                if (state == CalculationState.EnteringFirst
-                    || state == CalculationState.EnteringSecond)
-                {
-                    if (editedNumber.Length >= 1)
-                    {
-                        editedNumber.Remove(editedNumber.Length - 1, 1);
-                    }
-                    if (editedNumber.ToString() == "-")
-                    {
-                        editedNumber.Clear();
-                    }
-                    DisplayEditedNumber();
-                }
+                HandleBackspace();
             }
 
             if (k == Key.ParenOpen)
             {
-                if (state == CalculationState.EnteringOperation)
-                {
-                    //2*(
-                    var item = new Tuple<double, Key>(firstNumber, operation);
-                    operationStack.Push(item);
-                    firstNumber = 0.0;
-                    state = CalculationState.Result;
-                }
-                else if (state == CalculationState.Result)
-                {
-                    //2*((
-                    //or 2*(_100_( FIXME after one argument operation this will be wrong
-                    //only remember nesting
-                    operationStack.Push(null);
-                    firstNumber = 0.0;
-                    state = CalculationState.Result;
-                }
+                HandleParenOpen();
             }
 
             if (k == Key.ParenClose)
             {
-                if (operationStack.Any())
-                {
-                    if (state == CalculationState.Result)
-                    {
-                        //2*()
-                        //or 2*(_123_) result could be from one argument operation
-                    }
-                    else if (state == CalculationState.EnteringFirst)
-                    {
-                        //2*(3)
-                        firstNumber = CommitEditedNumber();
-                    }
-                    else if (state == CalculationState.EnteringOperation)
-                    {
-                        //2*(3+)
-                        //with itself
-                        secondNumber = firstNumber;
-                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                    }
-                    else if (state == CalculationState.EnteringSecond)
-                    {
-                        //2*(3+4)
-                        secondNumber = CommitEditedNumber();
-                        firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                    }
-
-                    DisplayResult();
-
-                    editedNumber.Clear();
-                    editedNumber.Append(BaseConverter.DoubleToString(firstNumber, @base, maxNumberOfDigits));
-
-                    var item = operationStack.Pop();
-                    if (item != null)
-                    {
-                        firstNumber = item.Item1;
-                        operation = item.Item2;
-                        state = CalculationState.EnteringSecond;
-                    }
-                    else
-                    {
-                        state = CalculationState.EnteringFirst;
-                    }
-                }
+                HandleParenClose();
             }
 
             if (k == Key.Add
@@ -283,20 +480,7 @@ namespace multiBaseCalc
                 || k == Key.NthLog
                 )
             {
-                if (state == CalculationState.EnteringFirst)
-                {
-                    firstNumber = CommitEditedNumber();
-                }
-                else if (state == CalculationState.EnteringSecond)
-                {
-                    secondNumber = CommitEditedNumber();
-
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                    DisplayResult();
-                }
-
-                state = CalculationState.EnteringOperation;
-                operation = k;
+                HandleTwoArgumentOperation(k);
             }
 
             if (k == Key.Inverse
@@ -310,136 +494,22 @@ namespace multiBaseCalc
                 || k == Key.Tan
                 )
             {
-                if (state == CalculationState.EnteringFirst)
-                {
-                    firstNumber = CommitEditedNumber();
-                }
-                else if (state == CalculationState.EnteringSecond)
-                {
-                    secondNumber = CommitEditedNumber();
-
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                }
-
-                firstNumber = PerformOperation(k, firstNumber, 0.0);
-                DisplayResult();
-
-                state = CalculationState.Result;
+                HandleOneArgumentOperation(k);
             }
 
             if (k == Key.PiConstant || k == Key.EConstant)
             {
-                if (state == CalculationState.Result)
-                {
-                    state = CalculationState.EnteringFirst;
-                }
-                else if (state == CalculationState.EnteringOperation)
-                {
-                    state = CalculationState.EnteringSecond;
-                }
-
-                editedNumber.Clear();
-                editedNumber.Append(BaseConverter.DoubleToString(PerformOperation(k, 0.0, 0.0), @base, maxNumberOfDigits));
-                DisplayEditedNumber();
+                HandleZeroArgumentOperation(k);
             }
 
             if (k == Key.Negate)
             {
-                if (state == CalculationState.EnteringFirst 
-                    || state == CalculationState.EnteringSecond)
-                {
-                    if (editedNumber[0] == '-')
-                    {
-                        editedNumber.Remove(0, 1);
-                    }
-                    else
-                    {
-                        editedNumber.Insert(0, '-');
-                    }
-                    DisplayEditedNumber();
-                }
-                else if (state == CalculationState.Result)
-                {
-                    firstNumber = -firstNumber;
-                    DisplayResult();
-                }
+                HandleNegate();
             }
 
             if (k == Key.Equals)
             {
-                if (operationStack.Any())
-                {
-                    while (operationStack.Any())
-                    {
-                        if (state == CalculationState.Result)
-                        {   
-                            //eg. during stack unwinding
-                            //1+( _5_ =
-                        }
-                        else if (state == CalculationState.EnteringFirst)
-                        {
-                            // 1+(2+(3=
-                            firstNumber = CommitEditedNumber();
-                        }
-                        else if (state == CalculationState.EnteringOperation)
-                        {
-                            //1+(2+=
-                            //do "with itself"
-                            secondNumber = firstNumber;
-                            firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                        }
-                        else if (state == CalculationState.EnteringSecond)
-                        {
-                            //1+(2+3=
-                            secondNumber = CommitEditedNumber();
-                            firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                        }
-
-                        secondNumber = firstNumber;
-
-                        var item = operationStack.Pop();
-                        if (item != null)
-                        {
-                            firstNumber = item.Item1;
-                            operation = item.Item2;
-                            firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                        }
-                        else
-                        {
-                            firstNumber = secondNumber;
-                        }
-
-                        state = CalculationState.Result;
-                    }
-
-                    DisplayResult();
-                }
-                else
-                {
-                    if (state == CalculationState.Result)
-                    {
-                        //repeat
-                    }
-                    else if (state == CalculationState.EnteringFirst)
-                    {
-                        //variant
-                        firstNumber = CommitEditedNumber();
-                    }
-                    else if (state == CalculationState.EnteringOperation)
-                    {
-                        //with itself
-                        secondNumber = firstNumber;
-                    }
-                    else if (state == CalculationState.EnteringSecond)
-                    {
-                        //normal calculation
-                        secondNumber = CommitEditedNumber();
-                    }
-
-                    firstNumber = PerformOperation(operation, firstNumber, secondNumber);
-                    DisplayResult();
-                    state = CalculationState.Result;
-                }
+                HandleEquals();
             }
 
             //DEBUG
