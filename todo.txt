@@ -28,7 +28,7 @@ todo:
 //- FIXME log10(negative) does nothing
 //- logy(x) i yroot(x), check domain and correctness of my calculation
 //- tests of new operations
-- copy / paste
+//- copy / paste
 
 //- parens and base changning?
 //bug: paste too large number

@@ -34,9 +34,9 @@ namespace multiBaseCalc
             display = new DisplayControl();
             labelBase = new System.Windows.Forms.Label();
             SuspendLayout();
-            //
+            // 
             // display
-            //
+            // 
             display.Location = new Point(20, 9);
             display.Size = new Size(531, 63);
             display.Font = new System.Drawing.Font("Consolas", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -60,6 +60,7 @@ namespace multiBaseCalc
             ClientSize = new System.Drawing.Size(630, 460);
             Controls.Add(labelBase);
             Controls.Add(display);
+            Icon = (Icon)Resources.ResourceManager.GetObject("icon");
             Name = "Form1";
             Text = "Multi Base Calc";
             KeyDown += Form1_KeyDown;
