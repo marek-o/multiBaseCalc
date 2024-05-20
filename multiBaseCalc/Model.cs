@@ -454,11 +454,14 @@ namespace multiBaseCalc
         {
             var sb = new StringBuilder();
             bool firstPeriod = true;
+            int digitCount = 0;
             for (int i = 0; i < s.Length; ++i)
             {
-                if (BaseConverter.CharToInt(s[i], @base) != -1)
+                if (BaseConverter.CharToInt(s[i], @base) != -1
+                    && digitCount < maxNumberOfDigits)
                 {
                     sb.Append(char.ToLower(s[i]));
+                    ++digitCount;
                 }
                 else if ((s[i] == ',' || s[i] == '.') && firstPeriod)
                 {

@@ -31,3 +31,4 @@ todo:
 - copy / paste
 
 //- parens and base changning?
+//bug: paste too large number
