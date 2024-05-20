@@ -4,7 +4,7 @@ namespace multiBaseCalc
 {
     public class CalculatorButton
     {
-        public Button Button { get; set; }
+        public ButtonNoEnter Button { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public Key Key { get; set; }

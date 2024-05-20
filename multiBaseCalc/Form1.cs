@@ -28,6 +28,8 @@ namespace multiBaseCalc
         }
 
         private List<CalculatorButton> buttons = new List<CalculatorButton>();
+        private int buttonMaxX = 0;
+        private int buttonMaxY = 0;
 
         public Form1()
         {
@@ -93,12 +95,17 @@ namespace multiBaseCalc
                 i.Button.Size = new Size(Scale(60), Scale(50));
                 float fontSize = i.Text.Length == 1 ? 20f : 10f;
                 i.Button.Font = new Font("Segoe UI", fontSize, FontStyle.Regular, GraphicsUnit.Point);
+                i.Button.X = i.X;
+                i.Button.Y = i.Y;
 
                 i.Button.Text = i.Text;
                 i.Button.KeyDown += Form1_KeyDown;
                 i.Button.Click += (object sender, EventArgs args) => { KeyPressed(i.Key); };
 
                 Controls.Add(i.Button);
+
+                if (i.X > buttonMaxX) buttonMaxX = i.X;
+                if (i.Y > buttonMaxY) buttonMaxY = i.Y;
             }
         }
 
@@ -116,6 +123,40 @@ namespace multiBaseCalc
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (sender is ButtonNoEnter button
+                && (e.KeyData == Keys.Left
+                || e.KeyData == Keys.Right
+                || e.KeyData == Keys.Up
+                || e.KeyData == Keys.Down))
+            {
+                int dx = 0;
+                int dy = 0;
+                if (e.KeyData == Keys.Left) { dx = -1; dy = 0; }
+                if (e.KeyData == Keys.Right) { dx = 1; dy = 0; }
+                if (e.KeyData == Keys.Up) { dx = 0; dy = -1; }
+                if (e.KeyData == Keys.Down) { dx = 0; dy = 1; }
+
+                int x = button.X;
+                int y = button.Y;
+
+                CalculatorButton b;
+                do
+                {
+                    x += dx;
+                    y += dy;
+                    if (x < 0) x = buttonMaxX;
+                    if (x > buttonMaxX) x = 0;
+                    if (y < 0) y = buttonMaxY;
+                    if (y > buttonMaxY) y = 0;
+
+                    b = buttons.Where(i => i.X == x && i.Y == y).FirstOrDefault();
+                }
+                while (b == null);
+
+                b.Button.Focus();
+                return;
+            }
+
             if (InputKeyToKey.TryGetValue(e.KeyData, out Key key))
             {
                 KeyPressed(key);
