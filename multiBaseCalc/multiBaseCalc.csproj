@@ -7,7 +7,7 @@
 	<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	<ApplicationIcon>icon.ico</ApplicationIcon>
 	<Authors></Authors>
-	<Copyright>Marek Ossowski</Copyright>
+	<Copyright>Copyright © Marek Ossowski 2023-2024</Copyright>
 	<Nullable>disable</Nullable>
   </PropertyGroup>
 
